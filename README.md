@@ -4,15 +4,15 @@
 42 project that creates a reusable maze generator based on a configuration file.
 
 ## Todos
-- README
+- README (each write own stuff)
 - Makefile
-- Read configuration file
+- Read configuration file and check validity
 - Generate maze
 	- Perfect algo
 	- Imperfect algo
 - Find shortest path
 - Write to output file
-- Visualization
+- Visualization (MLX)
 - Make reuable module
 
 ## Resources
