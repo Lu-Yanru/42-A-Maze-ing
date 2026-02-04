@@ -1,4 +1,3 @@
-
 # Parsing config file #
 # Takes file name and returns Dict with parsed values #
 def parse_config_file(file_name: str) -> dict:
