@@ -26,6 +26,6 @@
 
 ## Resources
 - [Maze generation algorithm: Recursive backtracking](https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking)
-- [Maze generation algorithm: Kruskal's algorithm](https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking)
-- [Maze generation algorithm: Prim's algorithm](https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking)
+- [Maze generation algorithm: Kruskal's algorithm](https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm)
+- [Maze generation algorithm: Prim's algorithm](https://weblog.jamisbuck.org/2011/1/10/maze-generation-prim-s-algorithm.html)
 - https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing
