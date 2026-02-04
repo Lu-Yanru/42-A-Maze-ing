@@ -18,5 +18,5 @@ def parse_config_file(file_name: str) -> dict:
             key = line.split("=")[0]
             value = line.split("=")[1]
             defines[key] = value
-    print(defines)
+    file.close()
     return defines
