@@ -32,12 +32,17 @@ class Cell:
         self.visited = visited
         self.walls = walls
 
+    @classmethod
+    def get_dirs(cls) -> list[int]:
+        """Returns a list of all directions."""
+        return [cls.NORTH, cls.EAST, cls.SOUTH, cls.WEST]
+
     def add_wall(self, direction: int) -> None:
-        """Add a wall, set bit to 1."""
+        """Add a wall in a given direction, set bit to 1."""
         self.walls = self.walls | direction
 
     def remove_wall(self, direction: int) -> None:
-        """Remove a wall, set bit to 0."""
+        """Remove a wall in a given direction, set bit to 0."""
         self.walls = self.walls & ~direction
 
 
@@ -64,11 +69,64 @@ class Grid:
             grid.append(row)
         return grid
 
+    def get_cell(self, x: int, y: int) -> Cell | None:
+        """Get cell at position (x, y)."""
+        try:
+            return self.grid[y][x]
+        except Exception:
+            return None
+
+    def get_neighbor(self, cell: Cell, direction: int) -> Cell | None:
+        """Get neightbor in the given direction."""
+        x, y = cell.pos
+        if direction == Cell.NORTH:
+            neighbor = self.get_cell(x, y - 1)
+        elif direction == Cell.EAST:
+            neighbor = self.get_cell(x + 1, y)
+        elif direction == Cell.SOUTH:
+            neighbor = self.get_cell(x, y + 1)
+        elif direction == Cell.WEST:
+            neighbor = self.get_cell(x - 1, y)
+        else:
+            return None
+        return neighbor
+
+    @staticmethod
+    def get_opposite_direction(direction: int) -> int:
+        """Get the opposite wall direction."""
+        opposites = {
+            Cell.NORTH: Cell.SOUTH,
+            Cell.SOUTH: Cell.NORTH,
+            Cell.EAST: Cell.WEST,
+            Cell.WEST: Cell.EAST
+        }
+        return opposites[direction]
+
+    def add_wall_btw(self, cell: Cell, direction: int) -> None:
+        """Add a wall between two cells."""
+        cell.add_wall(direction)
+        neighbor = self.get_neighbor(cell, direction)
+        if neighbor is None:
+            return
+        opp_dir = self.get_opposite_direction(direction)
+        neighbor.add_wall(opp_dir)
+
+    def remove_wall_btw(self, cell: Cell, direction: int) -> None:
+        """Remove a wall between two cells."""
+        cell.remove_wall(direction)
+        neighbor = self.get_neighbor(cell, direction)
+        if neighbor is None:
+            return
+        opp_dir = self.get_opposite_direction(direction)
+        neighbor.remove_wall(opp_dir)
+
 
 # testing
 grid = Grid(5, 5)
 cell = grid.grid[0][3]
-cell.remove_wall(Cell.NORTH)
+grid.remove_wall_btw(cell, Cell.SOUTH)
+print(f"{cell.walls}")
+grid.remove_wall_btw(cell, Cell.WEST)
 print(f"{cell.walls}")
 for row in grid.grid:
     for cell in row:
