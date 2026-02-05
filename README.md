@@ -12,16 +12,19 @@
 ### Todos
 - README (each write own stuff)
 - Makefile
-- Read configuration file and check validity
+- Read configuration file and check validity (lucas)
 - Generate maze
-	- Grid representation
-		- Terminal output for testing
-	- Fixed 42 pattern and config checking
+	- Grid representation (yanru)
+		- x Terminal output for testing
+	    - Fixed 42 pattern and config checking
+            - x generate 42 pattern
+            - x check grid is big enough
+            - check entry and exit points are not in 42 pattern
 	- Perfect algo -> Backtracking?
 	- Imperfect algo -> Prim?
 - Find shortest path -> Breadth First Search?
 - Write to output file
-- Visualization (MLX)
+- Visualization -> MLX?
 - Make reuable module
 
 ## Resources
