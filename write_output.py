@@ -9,16 +9,17 @@ The exit coordinates.
 The shorted valid path from entry to exit, using the four letters N, E, S, W.
 """
 
+from parse_config_file import Config
 from maze_grid import Grid
 
 
 class OutputWriter:
     """
-    Docstring for OutputWriter
+    Write maze generation output to a file.
     """
-    def __init__(self, maze: Grid, output: str) -> None:
+    def __init__(self, maze: Grid, config: Config) -> None:
         self.maze = maze
-        self.output = output
+        self.output = config.output
 
     def write_output_file(self) -> None:
         hex = "0123456789ABCDEF"
@@ -31,11 +32,5 @@ class OutputWriter:
         try:
             with open(self.output, "w") as fd:
                 fd.write(str)
-        except Exception:
-            print("Failed to write output file.")
-
-
-# testing
-if __name__ == "__main__":
-    maze = Grid(10, 10)
-    OutputWriter(maze, "output.txt").write_output_file()
+        except OSError as e:
+            print("OSError: ", e)

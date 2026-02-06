@@ -6,6 +6,8 @@ Cell --  a cell in the grid with 4 walls,
 represented as an interger from 0 to 15.
 """
 
+from parse_config_file import Config
+
 
 class Cell:
     """
@@ -66,12 +68,12 @@ class Grid:
     Each element in the grid is a Cell, as defined below.
     """
 
-    def __init__(self, width: int, height: int) -> None:
+    def __init__(self, config: Config) -> None:
         """Initialize the grid with a given width and height."""
-        self.width = width
-        self.height = height
+        self.width = config.width
+        self.height = config.height
         self.grid = self.make_grid()
-        if width < 7 or height < 5:
+        if self.width < 7 or self.height < 5:
             print("Error: Maze too small to generate 42 pattern.")
         else:
             self.make_42()
@@ -126,6 +128,7 @@ class Grid:
                         cell = self.grid[grid_y][grid_x]
                         cell.is_42 = True
                         cell.walls = 15
+                        cell.visited = True
 
     def get_cell(self, x: int, y: int) -> Cell | None:
         """Get cell at position (x, y)."""
@@ -185,29 +188,3 @@ class Grid:
         cell.remove_wall(direction)
         opp_dir = self.get_opposite_direction(direction)
         neighbor.remove_wall(opp_dir)
-
-
-# testing
-if __name__ == "__main__":
-    maze1 = Grid(5, 5)
-    cell = maze1.grid[0][3]
-    maze1.remove_wall_btw(cell, Cell.SOUTH)
-    print(f"{cell.walls}")
-    maze1.remove_wall_btw(cell, Cell.WEST)
-    print(f"{cell.walls}")
-    for row in maze1.grid:
-        for cell in row:
-            print(f"{cell.walls} ", end="")
-        print("")
-
-    print("")
-    maze2 = Grid(10, 10)
-    cell2 = maze2.grid[5][5]
-    maze2.remove_wall_btw(cell2, Cell.NORTH)
-    maze2.remove_wall_btw(cell2, Cell.SOUTH)
-    maze2.remove_wall_btw(cell2, Cell.EAST)
-    maze2.remove_wall_btw(cell2, Cell.WEST)
-    for row in maze2.grid:
-        for cell in row:
-            print(f"{cell.walls} ", end="")
-        print("")

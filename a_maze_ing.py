@@ -1,15 +1,9 @@
-import parse_config_file as parsing
 import sys
 
-
-class config():
-    def __init__(self, config: dict) -> None:
-        self.width = config["WIDTH"]
-        self.height = config["HEIGHT"]
-        self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
-        self.exit = tuple(int(y) for y in config["EXIT"].split(","))
-        self.output = config["OUTPUT_FILE"]
-        self.perfect = config["PERFECT"]
+import parse_config_file as parsing
+from parse_config_file import Config
+from maze_grid import Grid
+from write_output import OutputWriter
 
 
 # testing parsing to config class
@@ -20,9 +14,9 @@ def main():
         return
     else:
         configs = parsing.parse_config_file(sys.argv[1])
-        maze_config = config(configs)
-
-        print(maze_config.height)
+        maze_config = Config(configs)
+        maze = Grid(maze_config)
+        OutputWriter(maze, maze_config).write_output_file()
 
 
 main()

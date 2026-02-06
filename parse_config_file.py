@@ -6,6 +6,16 @@
 '''
 
 
+class Config():
+    def __init__(self, config: dict) -> None:
+        self.width = int(config["WIDTH"])
+        self.height = int(config["HEIGHT"])
+        self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
+        self.exit = tuple(int(y) for y in config["EXIT"].split(","))
+        self.output = config["OUTPUT_FILE"]
+        self.perfect = config["PERFECT"]
+
+
 def parse_config_file(file_name: str) -> dict:
     file = open(file_name, "r")
     lines = []
