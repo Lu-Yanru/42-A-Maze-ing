@@ -6,6 +6,11 @@
 '''
 
 
+class ConfigError(Exception):
+    """Error when sth is wrong in the configuration."""
+    pass
+
+
 class Config():
     def __init__(self, config: dict) -> None:
         self.width = int(config["WIDTH"])

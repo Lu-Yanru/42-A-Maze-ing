@@ -1,7 +1,7 @@
 import sys
 
 import parse_config_file as parsing
-from parse_config_file import Config
+from parse_config_file import Config, ConfigError
 from maze_grid import Grid
 from write_output import OutputWriter
 
@@ -15,8 +15,12 @@ def main():
     else:
         configs = parsing.parse_config_file(sys.argv[1])
         maze_config = Config(configs)
-        maze = Grid(maze_config)
-        OutputWriter(maze, maze_config).write_output_file()
+        try:
+            maze = Grid(maze_config)
+        except ConfigError as e:
+            print(e)
+        else:
+            OutputWriter(maze, maze_config).write_output_file()
 
 
 main()

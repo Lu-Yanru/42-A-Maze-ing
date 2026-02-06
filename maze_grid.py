@@ -6,12 +6,7 @@ Cell --  a cell in the grid with 4 walls,
 represented as an interger from 0 to 15.
 """
 
-from parse_config_file import Config
-
-
-class ConfigError(Exception):
-    def __init__(self, arg):
-        self.args = (arg,)
+from parse_config_file import Config, ConfigError
 
 
 class Cell:
