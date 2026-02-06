@@ -19,9 +19,12 @@ class OutputWriter:
     """
     def __init__(self, maze: Grid, config: Config) -> None:
         self.maze = maze
+        self.entry = config.entry
+        self.exit = config.exit
         self.output = config.output
 
     def write_output_file(self) -> None:
+        # The maze as hex
         hex = "0123456789ABCDEF"
         str = ""
         for y in range(self.maze.height):
@@ -29,6 +32,15 @@ class OutputWriter:
                 str += hex[self.maze.grid[y][x].walls % 16]
             str += "\n"
         str += "\n"
+
+        # Entry and exit points
+        str += "\n"
+        (x, y) = self.entry
+        str += f"{x},{y}\n"
+        (x, y) = self.exit
+        str += f"{x},{y}\n"
+
+        # Write to file
         try:
             with open(self.output, "w") as fd:
                 fd.write(str)

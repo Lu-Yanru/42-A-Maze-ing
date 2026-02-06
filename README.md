@@ -14,18 +14,18 @@
 - Makefile
 - Read configuration file and check validity (lucas)
 - Generate maze
-	- Grid representation (yanru)
+	- x Grid representation (yanru)
 		- x Terminal output for testing
-	    - Fixed 42 pattern and config checking
+	    - x Fixed 42 pattern and config checking
             - x generate 42 pattern
             - x check grid is big enough
-            - check entry and exit points are not in 42 pattern
+            - x check entry and exit points are not in 42 pattern
 	- Perfect algo -> Backtracking?
 	- Imperfect algo -> Prim?
 - Find shortest path -> Breadth First Search?
 - Write to output file (yanru)
     - x Write maze to output
-    - Write entry and exit points
+    - x Write entry and exit points
     - Write solution
 - Visualization -> MLX?
 - Make reuable module

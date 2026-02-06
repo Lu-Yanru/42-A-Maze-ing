@@ -9,6 +9,11 @@ represented as an interger from 0 to 15.
 from parse_config_file import Config
 
 
+class ConfigError(Exception):
+    def __init__(self, arg):
+        self.args = (arg,)
+
+
 class Cell:
     """
     A class that represents a cell.
@@ -72,6 +77,8 @@ class Grid:
         """Initialize the grid with a given width and height."""
         self.width = config.width
         self.height = config.height
+        self.entry = config.entry
+        self.exit = config.exit
         self.grid = self.make_grid()
         if self.width < 7 or self.height < 5:
             print("Error: Maze too small to generate 42 pattern.")
@@ -129,6 +136,13 @@ class Grid:
                         cell.is_42 = True
                         cell.walls = 15
                         cell.visited = True
+
+        # Check if entry and exit points are in the 42 pattern
+        entry_cell = self.grid[self.entry[1]][self.entry[0]]
+        exit_cell = self.grid[self.exit[1]][self.exit[0]]
+        if entry_cell.is_42 is True or exit_cell.is_42 is True:
+            raise ConfigError("ConfigError: "
+                              "Entry or exit point is inside 42 pattern.")
 
     def get_cell(self, x: int, y: int) -> Cell | None:
         """Get cell at position (x, y)."""
