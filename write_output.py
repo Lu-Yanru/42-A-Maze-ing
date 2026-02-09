@@ -31,7 +31,6 @@ class OutputWriter:
             for x in range(self.maze.width):
                 str += hex[self.maze.grid[y][x].walls % 16]
             str += "\n"
-        str += "\n"
 
         # Entry and exit points
         str += "\n"

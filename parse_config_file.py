@@ -19,6 +19,10 @@ class Config():
         self.exit = tuple(int(y) for y in config["EXIT"].split(","))
         self.output = config["OUTPUT_FILE"]
         self.perfect = config["PERFECT"]
+        if "SEED" in config:
+            self.seed = int(config["SEED"])
+        if "ALGORITHM" in config:
+            self.algo = config["ALGORITHM"]
 
 
 def parse_config_file(file_name: str) -> dict:

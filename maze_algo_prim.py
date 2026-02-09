@@ -24,6 +24,10 @@ class MazePrim(Grid):
         Args:
         start: The entry cell.
         """
+        # Set random seed
+        if hasattr(self, "seed"):
+            random.seed(self.seed)
+
         start.visited = True
         # Get frontier
         frontier = self.get_unvisited_neighbors(start)

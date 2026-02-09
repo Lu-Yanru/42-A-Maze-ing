@@ -75,6 +75,8 @@ class Grid:
         self.height = config.height
         self.entry = config.entry
         self.exit = config.exit
+        if hasattr(config, "seed"):
+            self.seed = config.seed
         self.grid = self.make_grid()
         if self.width < 7 or self.height < 5:
             print("Error: Maze too small to generate 42 pattern.")
@@ -223,6 +225,10 @@ class Grid:
             raise ValueError("Start cell already visited")
         if start.is_42:
             raise ValueError("Start cell cannot be inside 42 pattern")
+
+        # Set random seed
+        if hasattr(self, "seed"):
+            random.seed(self.seed)
 
         start.visited = True
         stack = [start]
