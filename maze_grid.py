@@ -210,13 +210,67 @@ class Grid:
         neighbor.remove_wall(opp_dir)
 
     # added perfect maze generator
-    def generate_maze(self, cell: Cell) -> None:
-        cell.visited = True
+    def generate_maze(self, start: Cell) -> None:
 
-        neighbors = self.get_unvisited_neighbors(cell)
-        random.shuffle(neighbors)
+        """
+        Carves a perfect maze starting from `start` cell.
+        Uses DFS iterative backtracker algorithm.
+        """
 
-        for neighbor, direction in neighbors:
-            if not neighbor.visited:
-                self.remove_wall_btw(cell, direction)
-                self.generate_maze(neighbor)
+        if start is None:
+            raise ValueError("Start cell cannot be None")
+        if start.visited:
+            raise ValueError("Start cell already visited")
+        if start.is_42:
+            raise ValueError("Start cell cannot be inside 42 pattern")
+
+        start.visited = True
+        stack = [start]
+
+        while stack:
+            current = stack[-1]
+            neighbors = self.get_unvisited_neighbors(current)
+            if neighbors:
+                # Choose a random neighbor
+                neighbor, direction = random.choice(neighbors)
+                # Remove wall between current and neighbor
+                self.remove_wall_btw(current, direction)
+                neighbor.visited = True
+                stack.append(neighbor)
+            else:
+                # Backtrack
+                stack.pop()
+
+    def print_ascii(self) -> None:
+        # Print top border
+        for x in range(self.width):
+            cell = self.grid[0][x]
+            print("+---" if cell.walls & Cell.NORTH else "+   ", end="")
+        print("+")
+
+        for y in range(self.height):
+            # Print left/right walls and interior
+            for x in range(self.width):
+                cell = self.grid[y][x]
+
+                # Determine the character inside the cell
+                if (x, y) == self.entry:
+                    content = " E "
+                elif (x, y) == self.exit:
+                    content = " X "
+                else:
+                    content = "   "
+
+                # Print left wall if present
+                if cell.walls & Cell.WEST:
+                    print("|" + content, end="")
+                else:
+                    print(" " + content, end="")
+
+            print("|")  # Rightmost border
+
+            # Print bottom walls
+            for x in range(self.width):
+                cell = self.grid[y][x]
+                print("+---" if cell.walls & Cell.SOUTH else "+   ", end="")
+            print("+")

@@ -23,6 +23,7 @@ def main():
 
         output = OutputWriter(grid, maze_config)
         output.write_output_file()
+        grid.print_ascii()
     except ConfigError:
         print("Config error\n")
 
