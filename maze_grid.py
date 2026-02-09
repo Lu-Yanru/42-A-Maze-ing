@@ -6,6 +6,7 @@ Cell --  a cell in the grid with 4 walls,
 represented as an interger from 0 to 15.
 """
 
+import random
 from parse_config_file import Config, ConfigError
 
 
@@ -161,6 +162,16 @@ class Grid:
             return None
         return neighbor
 
+    # added unvidited neighbors
+    def get_unvisited_neighbors(self, cell: Cell) -> list[tuple[Cell, int]]:
+        neighbors = []
+
+        for direction in Cell.get_dirs():
+            neighbor = self.get_neighbor(cell, direction)
+            if neighbor and not neighbor.visited and not neighbor.is_42:
+                neighbors.append((neighbor, direction))
+        return neighbors
+
     @staticmethod
     def get_opposite_direction(direction: int) -> int:
         """Get the opposite wall direction."""
@@ -197,3 +208,15 @@ class Grid:
         cell.remove_wall(direction)
         opp_dir = self.get_opposite_direction(direction)
         neighbor.remove_wall(opp_dir)
+
+    # added perfect maze generator
+    def generate_maze(self, cell: Cell) -> None:
+        cell.visited = True
+
+        neighbors = self.get_unvisited_neighbors(cell)
+        random.shuffle(neighbors)
+
+        for neighbor, direction in neighbors:
+            if not neighbor.visited:
+                self.remove_wall_btw(cell, direction)
+                self.generate_maze(neighbor)
