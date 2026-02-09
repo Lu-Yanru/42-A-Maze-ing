@@ -1,6 +1,6 @@
 import random
 
-from parse_config_file import Config
+from parse_config_file import Config, ConfigError
 from maze_grid import Grid
 
 
@@ -18,11 +18,11 @@ class MazeDFS(Grid):
 
         start = self.get_cell(self.entry[0], self.entry[1])
         if start is None:
-            raise ValueError("Start cell cannot be None")
+            raise ConfigError("Start cell cannot be None")
         if start.visited:
-            raise ValueError("Start cell already visited")
+            raise ConfigError("Start cell already visited")
         if start.is_42:
-            raise ValueError("Start cell cannot be inside 42 pattern")
+            raise ConfigError("Start cell cannot be inside 42 pattern")
 
         # Set random seed
         if hasattr(self, "seed"):

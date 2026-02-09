@@ -148,7 +148,7 @@ class Grid:
         """Get cell at position (x, y)."""
         try:
             return self.grid[y][x]
-        except Exception:
+        except IndexError:
             return None
 
     def get_neighbor(self, cell: Cell, direction: int) -> Cell | None:

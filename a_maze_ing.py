@@ -25,6 +25,8 @@ def main():
         vi.print_ascii(maze)
     except ConfigError as e:
         print(e)
+    except OSError as e:
+        print(e)
 
 
 main()
