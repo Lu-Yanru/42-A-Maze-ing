@@ -28,7 +28,8 @@
     - x Write maze to output
     - x Write entry and exit points
     - Write solution
-- Visualization -> MLX?
+- Visualization
+    - ascii (lucas)
 - Make reuable module
 
 ## Resources

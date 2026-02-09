@@ -6,7 +6,7 @@ Cell --  a cell in the grid with 4 walls,
 represented as an interger from 0 to 15.
 """
 
-import random
+
 from parse_config_file import Config, ConfigError
 
 
@@ -77,6 +77,8 @@ class Grid:
         self.exit = config.exit
         if hasattr(config, "seed"):
             self.seed = config.seed
+        if hasattr(config, "algo"):
+            self.algo = config.algo
         self.grid = self.make_grid()
         if self.width < 7 or self.height < 5:
             print("Error: Maze too small to generate 42 pattern.")
@@ -210,73 +212,3 @@ class Grid:
         cell.remove_wall(direction)
         opp_dir = self.get_opposite_direction(direction)
         neighbor.remove_wall(opp_dir)
-
-    # added perfect maze generator
-    def generate_maze(self, start: Cell) -> None:
-
-        """
-        Carves a perfect maze starting from `start` cell.
-        Uses DFS iterative backtracker algorithm.
-        """
-
-        if start is None:
-            raise ValueError("Start cell cannot be None")
-        if start.visited:
-            raise ValueError("Start cell already visited")
-        if start.is_42:
-            raise ValueError("Start cell cannot be inside 42 pattern")
-
-        # Set random seed
-        if hasattr(self, "seed"):
-            random.seed(self.seed)
-
-        start.visited = True
-        stack = [start]
-
-        while stack:
-            current = stack[-1]
-            neighbors = self.get_unvisited_neighbors(current)
-            if neighbors:
-                # Choose a random neighbor
-                neighbor, direction = random.choice(neighbors)
-                # Remove wall between current and neighbor
-                self.remove_wall_btw(current, direction)
-                neighbor.visited = True
-                stack.append(neighbor)
-            else:
-                # Backtrack
-                stack.pop()
-
-    def print_ascii(self) -> None:
-        # Print top border
-        for x in range(self.width):
-            cell = self.grid[0][x]
-            print("+---" if cell.walls & Cell.NORTH else "+   ", end="")
-        print("+")
-
-        for y in range(self.height):
-            # Print left/right walls and interior
-            for x in range(self.width):
-                cell = self.grid[y][x]
-
-                # Determine the character inside the cell
-                if (x, y) == self.entry:
-                    content = " E "
-                elif (x, y) == self.exit:
-                    content = " X "
-                else:
-                    content = "   "
-
-                # Print left wall if present
-                if cell.walls & Cell.WEST:
-                    print("|" + content, end="")
-                else:
-                    print(" " + content, end="")
-
-            print("|")  # Rightmost border
-
-            # Print bottom walls
-            for x in range(self.width):
-                cell = self.grid[y][x]
-                print("+---" if cell.walls & Cell.SOUTH else "+   ", end="")
-            print("+")

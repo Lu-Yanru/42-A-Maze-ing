@@ -2,9 +2,9 @@ import sys
 
 import parse_config_file as parsing
 from parse_config_file import Config, ConfigError
-from maze_grid import Grid
-from maze_algo_prim import MazePrim
+import maze_generator as mg
 from write_output import OutputWriter
+import visualization as vi
 
 
 # testing parsing to config class
@@ -18,13 +18,11 @@ def main():
     maze_config = Config(configs)
 
     try:
-        grid = MazePrim(maze_config)
-        start = grid.get_cell(grid.entry[0], grid.entry[1])
-        grid.generate_maze_prim(start)
+        maze = mg.generate_maze(maze_config)
 
-        output = OutputWriter(grid, maze_config)
+        output = OutputWriter(maze, maze_config)
         output.write_output_file()
-        grid.print_ascii()
+        vi.print_ascii(maze)
     except ConfigError as e:
         print(e)
 

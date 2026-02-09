@@ -6,7 +6,7 @@ MazePrim class that generates a maze using Prim's algorithm.
 import random
 
 from parse_config_file import Config
-from maze_grid import Cell, Grid
+from maze_grid import Grid
 
 
 class MazePrim(Grid):
@@ -17,16 +17,26 @@ class MazePrim(Grid):
     def __init__(self, config: Config) -> None:
         super().__init__(config)
 
-    def generate_maze_prim(self, start: Cell) -> None:
+    def generate_maze_prim(self) -> None:
         """
         A function the generate a maze using Prim's algorithm.
 
         Args:
         start: The entry cell.
         """
+
         # Set random seed
         if hasattr(self, "seed"):
             random.seed(self.seed)
+
+        # Start from the entry cell
+        start = self.get_cell(self.entry[0], self.entry[1])
+        if start is None:
+            raise ValueError("Start cell cannot be None")
+        if start.visited:
+            raise ValueError("Start cell already visited")
+        if start.is_42:
+            raise ValueError("Start cell cannot be inside 42 pattern")
 
         start.visited = True
         # Get frontier
