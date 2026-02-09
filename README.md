@@ -20,8 +20,9 @@
             - x generate 42 pattern
             - x check grid is big enough
             - x check entry and exit points are not in 42 pattern
-	- Perfect algo -> Backtracking?
-	- Imperfect algo -> Prim?
+	- Perfect algo1 -> Backtracking (lucas)
+	- Perfect algo2 -> Prim (yanru)
+    - Imperfect maze: randomly remove walls if not form a bigger corridor
 - Find shortest path -> Breadth First Search?
 - Write to output file (yanru)
     - x Write maze to output
