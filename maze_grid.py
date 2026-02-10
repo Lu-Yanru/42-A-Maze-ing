@@ -241,7 +241,7 @@ class Grid:
 
         return all_walls
 
-    def check_2x2(self: "Grid", cell: "Cell") -> bool:
+    def check_2x2(self: "Grid", cell: "Cell", dir: int) -> bool:
         """
         Check whether removing a wall will create a open area of 2x2
         by checking if the given wall is the only wall inside of the square.
@@ -256,17 +256,23 @@ class Grid:
             False if it would not.
         """
         (x, y) = cell.pos
+        tr = self.get_neighbor(cell, Cell.EAST)
+        if tr is None or tr.is_42:
+            return False
         bl = self.get_neighbor(cell, Cell.SOUTH)
         if bl is None or bl.is_42:
             return False
-        else:
-            br = self.get_neighbor(bl, Cell.EAST)
-            if br is None or br.is_42:
-                return False
-
-        if bl.has_wall(Cell.NORTH) or bl.has_wall(Cell.EAST) \
-           or br.has_wall(Cell.NORTH):
+        br = self.get_neighbor(bl, Cell.EAST)
+        if br is None or br.is_42:
             return False
+        if dir == Cell.EAST:
+            if bl.has_wall(Cell.NORTH) or bl.has_wall(Cell.EAST) \
+               or br.has_wall(Cell.NORTH):
+                return False
+        if dir == Cell.SOUTH:
+            if tr.has_wall(Cell.WEST) or tr.has_wall(Cell.SOUTH) \
+               or br.has_wall(Cell.WEST):
+                return False
         return True
 
     def check_opening(self: "Grid", cell: "Cell", dir: int) -> bool:
@@ -281,19 +287,19 @@ class Grid:
         """
         (x, y) = cell.pos
         if dir == Cell.SOUTH:
-            res_right = self.check_2x2(cell)
+            res_right = self.check_2x2(cell, dir)
             cell_left = self.get_neighbor(cell, Cell.WEST)
             if cell_left is None:
                 return False
-            res_left = self.check_2x2(cell_left)
-            return res_right and res_left
+            res_left = self.check_2x2(cell_left, dir)
+            return res_right or res_left
         elif dir == Cell.WEST:
-            res_down = self.check_2x2(cell)
+            res_down = self.check_2x2(cell, dir)
             cell_top = self.get_neighbor(cell, Cell.NORTH)
             if cell_top is None:
                 return False
-            res_top = self.check_2x2(cell_top)
-            return res_down and res_top
+            res_top = self.check_2x2(cell_top, dir)
+            return res_down or res_top
         return True
 
     def make_imperfect(self: "Grid") -> None:
