@@ -50,10 +50,8 @@ class MazePrim(Grid):
             if new_cell.visited:
                 continue
 
-            # Rnadomly choose a visited neighbor of the selected frontier cell
+            # Randomly choose a visited neighbor of the selected frontier cell
             neighbors = self.get_visited_neighbors(new_cell)
-            # if neighbors is None:
-            #    continue
             (neighbor, direction) = random.choice(neighbors)
 
             # Remove wall btw new_cell and visited neighbor
@@ -63,7 +61,4 @@ class MazePrim(Grid):
             new_cell.visited = True
 
             # Add the unvisted neighbors of the new cell to the frontier
-            # without duplicates
-            # new_frontier = self.get_unvisited_neighbors(new_cell)
-            # frontier = list(set(frontier + new_frontier))
             frontier.extend(self.get_unvisited_neighbors(new_cell))

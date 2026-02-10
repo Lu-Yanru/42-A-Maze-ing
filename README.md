@@ -22,7 +22,7 @@
             - x check entry and exit points are not in 42 pattern
 	- x Perfect algo1 -> Backtracking (lucas)
 	- x Perfect algo2 -> Prim (yanru)
-    - Imperfect maze: randomly remove walls if not form a bigger corridor
+    - x Imperfect maze: randomly remove walls if not form a bigger corridor (yanru)
 - Find shortest path -> Breadth First Search?
 - Write to output file (yanru)
     - x Write maze to output
