@@ -146,10 +146,9 @@ class Grid:
 
     def get_cell(self: "Grid", x: int, y: int) -> Cell | None:
         """Get cell at position (x, y)."""
-        try:
+        if 0 <= x < self.width and 0 <= y < self.height:
             return self.grid[y][x]
-        except IndexError:
-            return None
+        return None
 
     def get_neighbor(self: "Grid", cell: Cell, direction: int) -> Cell | None:
         """Get neightbor in the given direction."""
@@ -174,6 +173,17 @@ class Grid:
         for direction in Cell.get_dirs():
             neighbor = self.get_neighbor(cell, direction)
             if neighbor and not neighbor.visited and not neighbor.is_42:
+                neighbors.append((neighbor, direction))
+        return neighbors
+
+    def get_visited_neighbors(self: "Grid",
+                              cell: Cell) -> list[tuple[Cell, int]]:
+        """Get a list of neighbors that are already visited."""
+        neighbors = []
+
+        for direction in Cell.get_dirs():
+            neighbor = self.get_neighbor(cell, direction)
+            if neighbor and neighbor.visited and not neighbor.is_42:
                 neighbors.append((neighbor, direction))
         return neighbors
 
