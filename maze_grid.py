@@ -29,8 +29,8 @@ class Cell:
     SOUTH = 4  # 0100
     WEST = 8  # 1000
 
-    def __init__(self, pos: tuple, visited: bool = False, walls: int = 15,
-                 is_42: bool = False) -> None:
+    def __init__(self: "Cell", pos: tuple, visited: bool = False,
+                 walls: int = 15, is_42: bool = False) -> None:
         """
         Creates a cell.
 
@@ -48,16 +48,16 @@ class Cell:
         self.is_42 = is_42
 
     @classmethod
-    def get_dirs(cls) -> list[int]:
+    def get_dirs(cls: "type[Cell]") -> list[int]:
         """Returns a list of all directions."""
         return [cls.NORTH, cls.EAST, cls.SOUTH, cls.WEST]
 
-    def add_wall(self, direction: int) -> None:
+    def add_wall(self: "Cell", direction: int) -> None:
         """Add a wall in a given direction, set bit to 1."""
         if not self.is_42:
             self.walls = self.walls | direction
 
-    def remove_wall(self, direction: int) -> None:
+    def remove_wall(self: "Cell", direction: int) -> None:
         """Remove a wall in a given direction, set bit to 0."""
         if not self.is_42:
             self.walls = self.walls & ~direction
@@ -69,7 +69,7 @@ class Grid:
     Each element in the grid is a Cell, as defined below.
     """
 
-    def __init__(self, config: Config) -> None:
+    def __init__(self: "Grid", config: Config) -> None:
         """Initialize the grid with a given width and height."""
         self.width = config.width
         self.height = config.height
@@ -85,7 +85,7 @@ class Grid:
         else:
             self.make_42()
 
-    def make_grid(self) -> list[list[Cell]]:
+    def make_grid(self: "Grid") -> list[list[Cell]]:
         """
         Create a grid with each cell having default values.
         """
@@ -98,7 +98,7 @@ class Grid:
             grid.append(row)
         return grid
 
-    def make_42(self) -> None:
+    def make_42(self: "Grid") -> None:
         """
         If the grid is big enough, reserve a part with closed cells
         in a "42" pattern in the center of the grid.
@@ -144,14 +144,14 @@ class Grid:
             raise ConfigError("ConfigError: "
                               "Entry or exit point is inside 42 pattern.")
 
-    def get_cell(self, x: int, y: int) -> Cell | None:
+    def get_cell(self: "Grid", x: int, y: int) -> Cell | None:
         """Get cell at position (x, y)."""
         try:
             return self.grid[y][x]
         except IndexError:
             return None
 
-    def get_neighbor(self, cell: Cell, direction: int) -> Cell | None:
+    def get_neighbor(self: "Grid", cell: Cell, direction: int) -> Cell | None:
         """Get neightbor in the given direction."""
         x, y = cell.pos
         if direction == Cell.NORTH:
@@ -167,7 +167,8 @@ class Grid:
         return neighbor
 
     # added unvidited neighbors
-    def get_unvisited_neighbors(self, cell: Cell) -> list[tuple[Cell, int]]:
+    def get_unvisited_neighbors(self: "Grid",
+                                cell: Cell) -> list[tuple[Cell, int]]:
         neighbors = []
 
         for direction in Cell.get_dirs():
@@ -187,7 +188,7 @@ class Grid:
         }
         return opposites[direction]
 
-    def add_wall_btw(self, cell: Cell, direction: int) -> None:
+    def add_wall_btw(self: "Grid", cell: Cell, direction: int) -> None:
         """Add a wall between two cells."""
         if cell.is_42:
             return
@@ -200,7 +201,7 @@ class Grid:
         opp_dir = self.get_opposite_direction(direction)
         neighbor.add_wall(opp_dir)
 
-    def remove_wall_btw(self, cell: Cell, direction: int) -> None:
+    def remove_wall_btw(self: "Grid", cell: Cell, direction: int) -> None:
         """Remove a wall between two cells."""
         if cell.is_42:
             return

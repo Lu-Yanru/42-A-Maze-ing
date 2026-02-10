@@ -12,7 +12,7 @@ class ConfigError(Exception):
 
 
 class Config():
-    def __init__(self, config: dict) -> None:
+    def __init__(self: "Config", config: dict) -> None:
         self.width = int(config["WIDTH"])
         self.height = int(config["HEIGHT"])
         self.entry = tuple(int(x) for x in config["ENTRY"].split(","))

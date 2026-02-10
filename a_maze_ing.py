@@ -10,7 +10,7 @@ import visualization as vi
 # testing parsing to config class
 
 
-def main():
+def main() -> None:
     if len(sys.argv) != 2:
         return
 

@@ -14,10 +14,10 @@ class MazePrim(Grid):
     Subclass of Grid.
     Creates a maze using Prim's algorithm.
     """
-    def __init__(self, config: Config) -> None:
+    def __init__(self: "MazePrim", config: Config) -> None:
         super().__init__(config)
 
-    def generate_maze_prim(self) -> None:
+    def generate_maze_prim(self: "MazePrim") -> None:
         """
         A function the generate a maze using Prim's algorithm.
 

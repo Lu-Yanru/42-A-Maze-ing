@@ -17,13 +17,13 @@ class OutputWriter:
     """
     Write maze generation output to a file.
     """
-    def __init__(self, maze: Grid, config: Config) -> None:
+    def __init__(self: "OutputWriter", maze: Grid, config: Config) -> None:
         self.maze = maze
         self.entry = config.entry
         self.exit = config.exit
         self.output = config.output
 
-    def write_output_file(self) -> None:
+    def write_output_file(self: "OutputWriter") -> None:
         # The maze as hex
         hex = "0123456789ABCDEF"
         str = ""

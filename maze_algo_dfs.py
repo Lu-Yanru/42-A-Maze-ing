@@ -5,11 +5,11 @@ from maze_grid import Grid
 
 
 class MazeDFS(Grid):
-    def __init__(self, config: Config) -> None:
+    def __init__(self: "MazeDFS", config: Config) -> None:
         super().__init__(config)
 
     # added perfect maze generator
-    def generate_maze_dfs(self) -> None:
+    def generate_maze_dfs(self: "MazeDFS") -> None:
 
         """
         Carves a perfect maze starting from `start` cell.
