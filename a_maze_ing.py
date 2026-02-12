@@ -2,28 +2,32 @@ import sys
 
 import parse_config_file as parsing
 from parse_config_file import Config, ConfigError
-import maze_generator as mg
+from maze_generator import MazeGenerator
 from maze_solver import MazeSolver
 from write_output import OutputWriter
 import visualization as vi
-
-
-# testing parsing to config class
 
 
 def main() -> None:
     if len(sys.argv) != 2:
         return
 
-    configs = parsing.parse_config_file(sys.argv[1])
-    maze_config = Config(configs)
-
     try:
-        maze = mg.generate_maze(maze_config)
+        # parse config
+        configs = parsing.parse_config_file(sys.argv[1])
+        maze_config = Config(configs)
+
+        # generate maze
+        maze = MazeGenerator.generate_maze(maze_config)
+
+        # solve maze
         solution = MazeSolver(maze).solve_maze()
 
+        # write output
         output = OutputWriter(maze, solution, maze_config)
         output.write_output_file()
+
+        # visualize
         vi.print_ascii(maze)
     except ConfigError as e:
         print(e)

@@ -1,15 +1,15 @@
 import random
 
 from parse_config_file import Config, ConfigError
-from maze_grid import Grid
+from maze_generator import MazeGenerator
 
 
-class MazeDFS(Grid):
+class MazeDFS(MazeGenerator):
     def __init__(self: "MazeDFS", config: Config) -> None:
         super().__init__(config)
 
     # added perfect maze generator
-    def generate_maze_dfs(self: "MazeDFS") -> None:
+    def generate(self: "MazeDFS") -> None:
 
         """
         Carves a perfect maze starting from `start` cell.

@@ -1,4 +1,5 @@
-from maze_grid import Cell, Grid
+from maze_cell import Cell
+from maze_grid import Grid
 
 
 def print_ascii(maze: Grid) -> None:

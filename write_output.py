@@ -10,7 +10,8 @@ The shorted valid path from entry to exit, using the four letters N, E, S, W.
 """
 
 from parse_config_file import Config
-from maze_grid import Cell, Grid
+from maze_cell import Cell
+from maze_grid import Grid
 
 
 class OutputWriter:

@@ -6,10 +6,10 @@ MazePrim class that generates a maze using Prim's algorithm.
 import random
 
 from parse_config_file import Config, ConfigError
-from maze_grid import Grid
+from maze_generator import MazeGenerator
 
 
-class MazePrim(Grid):
+class MazePrim(MazeGenerator):
     """
     Subclass of Grid.
     Creates a maze using Prim's algorithm.
@@ -17,7 +17,7 @@ class MazePrim(Grid):
     def __init__(self: "MazePrim", config: Config) -> None:
         super().__init__(config)
 
-    def generate_maze_prim(self: "MazePrim") -> None:
+    def generate(self: "MazePrim") -> None:
         """
         A function the generate a maze using Prim's algorithm.
 

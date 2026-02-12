@@ -1,9 +1,11 @@
 """
-Docstring for maze_solver
+The MazeSolver class instantiates from a maze (Grid)
+and includes functions to solve the maze.
 """
 
 
-from maze_grid import Cell, Grid
+from maze_cell import Cell
+from maze_grid import Grid
 
 
 class MazeSolver:
