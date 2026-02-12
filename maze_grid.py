@@ -57,6 +57,20 @@ class Cell:
         """Returns a list of all directions."""
         return [cls.NORTH, cls.EAST, cls.SOUTH, cls.WEST]
 
+    @classmethod
+    def dir_to_str(cls: "type[Cell]", dir: int) -> str | None:
+        """Converts a diretion to its corresponding name."""
+        if dir == cls.NORTH:
+            return "N"
+        if dir == cls.EAST:
+            return "E"
+        if dir == cls.SOUTH:
+            return "S"
+        if dir == cls.WEST:
+            return "W"
+
+        return None
+
     def has_wall(self: "Cell", direction: int) -> bool:
         """Check whether a cell as wall in a given direction."""
         if self.walls & direction:

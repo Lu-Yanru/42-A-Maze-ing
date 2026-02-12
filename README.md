@@ -24,10 +24,10 @@
 	- x Perfect algo2 -> Prim (yanru)
     - x Imperfect maze: randomly remove walls if not form a bigger corridor (yanru)
 - x Find shortest path -> Breadth First Search (yanru)
-- Write to output file (yanru)
+- x Write to output file (yanru)
     - x Write maze to output
     - x Write entry and exit points
-    - Write solution
+    - x Write solution
 - Visualization
     - ascii (lucas)
 - Make reuable module

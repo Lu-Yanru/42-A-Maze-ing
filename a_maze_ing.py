@@ -22,7 +22,7 @@ def main() -> None:
         maze = mg.generate_maze(maze_config)
         solution = MazeSolver(maze).solve_maze()
 
-        output = OutputWriter(maze, maze_config)
+        output = OutputWriter(maze, solution, maze_config)
         output.write_output_file()
         vi.print_ascii(maze)
     except ConfigError as e:

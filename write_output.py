@@ -10,15 +10,17 @@ The shorted valid path from entry to exit, using the four letters N, E, S, W.
 """
 
 from parse_config_file import Config
-from maze_grid import Grid
+from maze_grid import Cell, Grid
 
 
 class OutputWriter:
     """
     Write maze generation output to a file.
     """
-    def __init__(self: "OutputWriter", maze: Grid, config: Config) -> None:
+    def __init__(self: "OutputWriter", maze: Grid, solution: list[int] | None,
+                 config: Config) -> None:
         self.maze = maze
+        self.solution = solution
         self.entry = config.entry
         self.exit = config.exit
         self.output = config.output
@@ -39,6 +41,14 @@ class OutputWriter:
         (x, y) = self.exit
         str += f"{x},{y}\n"
 
+        # Solution
+        if self.solution is not None:
+            for dir in self.solution:
+                dir_str = Cell.dir_to_str(dir)
+                if dir_str is not None:
+                    str += dir_str
+
+        str += "\n"
         # Write to file
         try:
             with open(self.output, "w") as fd:
