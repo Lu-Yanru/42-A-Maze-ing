@@ -23,7 +23,7 @@
 	- x Perfect algo1 -> Backtracking (lucas)
 	- x Perfect algo2 -> Prim (yanru)
     - x Imperfect maze: randomly remove walls if not form a bigger corridor (yanru)
-- Find shortest path -> Breadth First Search?
+- x Find shortest path -> Breadth First Search (yanru)
 - Write to output file (yanru)
     - x Write maze to output
     - x Write entry and exit points
@@ -36,6 +36,7 @@
 - [Maze generation algorithm: Recursive backtracking](https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking)
 - [Maze generation algorithm: Kruskal's algorithm](https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm)
 - [Maze generation algorithm: Prim's algorithm](https://weblog.jamisbuck.org/2011/1/10/maze-generation-prim-s-algorithm.html)
+- [Solve maze using Breadth First Search (BFS)Algorithm](https://medium.com/@luthfisauqi17_68455/artificial-intelligence-search-problem-solve-maze-using-breadth-first-search-bfs-algorithm-255139c6e1a3)
 - [Python bitwise operators](https://wiki.python.org/moin/BitwiseOperators)
 - [mazelib, a python API for creating and solving mazes](https://github.com/john-science/mazelib)
 - https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing

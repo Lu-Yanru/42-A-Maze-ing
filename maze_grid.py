@@ -43,6 +43,9 @@ class Cell:
                          Default 15, all 4 walls closed.
             is_42 (bool): Whether the cell is part of the 42 pattern.
                          Default false.
+            prev (tuple): The previous cell in the solution and the direction
+                        of the open wall from previous to current cell.
+                        Default (None, 0)
         """
         self.pos = pos
         self.visited = visited

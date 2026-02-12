@@ -3,6 +3,7 @@ import sys
 import parse_config_file as parsing
 from parse_config_file import Config, ConfigError
 import maze_generator as mg
+from maze_solver import MazeSolver
 from write_output import OutputWriter
 import visualization as vi
 
@@ -19,6 +20,7 @@ def main() -> None:
 
     try:
         maze = mg.generate_maze(maze_config)
+        solution = MazeSolver(maze).solve_maze()
 
         output = OutputWriter(maze, maze_config)
         output.write_output_file()
@@ -29,4 +31,5 @@ def main() -> None:
         print(e)
 
 
-main()
+if __name__ == "__main__":
+    main()
