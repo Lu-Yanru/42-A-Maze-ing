@@ -5,7 +5,7 @@ from parse_config_file import Config, ConfigError
 from maze_generator import MazeGenerator
 from maze_solver import MazeSolver
 from write_output import OutputWriter
-import visualization as vi
+from visualization import Visualizer
 
 
 def main() -> None:
@@ -28,7 +28,8 @@ def main() -> None:
         output.write_output_file()
 
         # visualize
-        vi.print_ascii(maze)
+        # Visualizer(maze).print_ascii()
+        Visualizer(maze).print_walls()
     except ConfigError as e:
         print(e)
     except OSError as e:

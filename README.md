@@ -60,7 +60,7 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
 
 ### Planning and task divitions
 - README (each write own stuff)
-- Makefile
+- Makefile (lucas)
 - Read configuration file and check validity (lucas)
 - Generate maze
 	- x Grid representation (yanru)
@@ -78,7 +78,13 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
     - x Write entry and exit points
     - x Write solution
 - Visualization
-    - ascii (lucas)
+    - x Display walls (lucas)
+    - x Display entry and exit points (lucas)
+    - User interaction
+        - Prompt
+        - Regenerate maze
+        - Show/hide solution
+        - Change wall color
 - Make reuable module
 
 ### Reflections
@@ -92,6 +98,7 @@ What worked well and what coulde be improved
 - [Breadth-First Search in Python](https://www.datacamp.com/tutorial/breadth-first-search-in-python)
 - [Python bitwise operators](https://wiki.python.org/moin/BitwiseOperators)
 - [mazelib, a python API for creating and solving mazes](https://github.com/john-science/mazelib)
+- [List of Unicode Characters of Category “Other Symbol”](https://www.compart.com/en/unicode/category/So)
 - https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing
 
 ### Tools used
