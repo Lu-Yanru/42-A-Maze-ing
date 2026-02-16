@@ -1,5 +1,6 @@
 """
-MazeImperfect is a sublcass of Grid that makes a perfect maze imperfect.
+MazeImperfect is a sublcass of Grid that makes a perfect maze imperfect
+by removing some walls from the perfect maze.
 """
 import random
 
@@ -110,7 +111,7 @@ class MazeImperfect(Grid):
             return res_down or res_top
         return True
 
-    def make_imperfect(self: "MazeImperfect") -> None:
+    def make_imperfect(self: "MazeImperfect", rate: float = 0.1) -> None:
         """
         Make a perfect maze imperfect by removing 10% of the remaining walls.
         """
@@ -120,7 +121,7 @@ class MazeImperfect(Grid):
             random.seed(self.seed)
         random.shuffle(all_walls)
 
-        num_to_remove = int(len(all_walls) * 0.1)
+        num_to_remove = int(len(all_walls) * rate)
         num_removed = 0
         for cell, dir in all_walls:
             if num_removed >= num_to_remove:

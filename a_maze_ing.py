@@ -1,3 +1,4 @@
+import curses
 import sys
 
 import parse_config_file as parsing
@@ -29,7 +30,13 @@ def main() -> None:
 
         # visualize
         # Visualizer(maze).print_ascii()
-        Visualizer(maze).print_walls()
+        def run(stdscr):
+            renderer = Visualizer(stdscr, maze)
+            renderer.print_walls()
+            stdscr.getch()
+
+        curses.wrapper(run)
+
     except ConfigError as e:
         print(e)
     except OSError as e:
