@@ -55,4 +55,4 @@ class OutputWriter:
             with open(self.output, "w") as fd:
                 fd.write(str)
         except OSError as e:
-            print("OSError: ", e)
+            raise OSError("OSError: ", e)
