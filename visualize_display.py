@@ -177,9 +177,11 @@ class MazeDisplay:
 
     def scroll_to_prompt(self) -> None:
         """Scroll to prompt row."""
-        if self.prompt_row - self.scroll_offset_y >= self.screen_height - 2:
-            calc = self.prompt_row - self.screen_height + 2
-            self.scroll_offset_y = max(0, calc)
+        if self.prompt_row - self.scroll_offset_y >= self.screen_height - 2 \
+                or self.prompt_col <= self.scroll_offset_x:
+            calc_y = self.prompt_row - self.screen_height + 2
+            self.scroll_offset_y = max(0, calc_y)
+            self.scroll_offset_x = 0
             self.redraw()
 
     def get_user_input(self: "MazeDisplay") -> str:
@@ -195,12 +197,6 @@ class MazeDisplay:
         # Get the position of the prompt on the screen
         prompt_screen_y = self.prompt_row - self.scroll_offset_y
         prompt_screen_x = self.prompt_col - self.scroll_offset_x
-
-        # Make sure prompt is visible on screen
-        if prompt_screen_y < 0 or prompt_screen_y >= self.screen_height - 1:
-            return ""
-        if prompt_screen_x < 0:
-            prompt_screen_x = 0
 
         # Show cursor
         curses.curs_set(1)
