@@ -36,7 +36,7 @@ class ColorTheme:
                 entry=-1,
                 exit=-1,
                 path=6,
-                fill_42=-1
+                fill_42=7
             ),
             1: cls(
                 name="red",

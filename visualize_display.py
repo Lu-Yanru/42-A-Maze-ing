@@ -146,21 +146,23 @@ class MazeDisplay:
         try:
             self.pad.move(start_row, 0)
             self.pad.addstr(start_row, 0,
-                            "=== A-Maze-ing ===")
+                            "=== A-Maze-ing ===", curses.color_pair(6))
             self.pad.addstr(start_row + 1, 0,
-                            "Use ← ↑ → ↓ to scroll.")
+                            "Use ← ↑ → ↓ to scroll.", curses.color_pair(6))
             self.pad.addstr(start_row + 2, 0,
-                            "Press i to enter input mode.")
+                            "Press i to enter input mode.",
+                            curses.color_pair(6))
             self.pad.addstr(start_row + 3, 0,
-                            "1. Re-generate a new maze")
+                            "1. Re-generate a new maze", curses.color_pair(6))
             self.pad.addstr(start_row + 4, 0,
-                            "2. Show/Hide path from entry to exit")
+                            "2. Show/Hide path from entry to exit",
+                            curses.color_pair(6))
             self.pad.addstr(start_row + 5, 0,
-                            "3. Rotate maze colors")
+                            "3. Rotate maze colors", curses.color_pair(6))
             self.pad.addstr(start_row + 6, 0,
-                            "4. Quit")
+                            "4. Quit", curses.color_pair(6))
             self.pad.addstr(start_row + 7, 0,
-                            "Choice? (1-4): ")
+                            "Choice? (1-4): ", curses.color_pair(6))
         except curses.error:
             pass
 
@@ -173,7 +175,7 @@ class MazeDisplay:
         try:
             self.pad.move(start_row, 0)
             self.pad.clrtoeol()
-            self.pad.addstr(start_row, 0, message)
+            self.pad.addstr(start_row, 0, message, curses.color_pair(6))
         except curses.error:
             pass
 
@@ -334,6 +336,7 @@ class MazeDisplay:
         if user_input == "1":
             self.display_maze()
             return True
+        # SHhow/hide solution
         elif user_input == "2":
             if self.solution_visible:
                 self.hide_solution()

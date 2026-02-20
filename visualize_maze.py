@@ -73,6 +73,7 @@ class MazePainter:
         curses.init_pair(3, -1, self.theme.exit)
         curses.init_pair(4, self.theme.path, -1)
         curses.init_pair(5, self.theme.fill_42, -1)
+        curses.init_pair(6, -1, -1)
 
         # Set the space character to the default fore- and background colors
         self.stdscr.bkgd(" ", curses.color_pair(1))
@@ -94,11 +95,11 @@ class MazePainter:
 
     def draw_entry_exit(self: "MazePainter", row: int, col: int,
                         char: str, color_pair: int) -> int:
-        self.draw_char(row, col, " ")
+        self.draw_char(row, col, " ", color_pair)
         col += 1
         self.draw_char(row, col, char, color_pair)
         col += 1
-        self.draw_char(row, col, " ")
+        self.draw_char(row, col, " ", color_pair)
         col += 1
         return col
 
