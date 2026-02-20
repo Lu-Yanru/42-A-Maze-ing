@@ -32,6 +32,7 @@ class MazeDisplay:
         self.painter: MazePainter | None = None
         self.maze: Grid | None = None
         self.solution: list[int] | None = None
+        self.solution_visible = False
 
     def generate_maze(self: "MazeDisplay") -> None:
         """Generate maze and solution and write to output."""
@@ -100,6 +101,18 @@ class MazeDisplay:
 
         # Display on pad
         self.redraw()
+
+    def show_solution(self: "MazeDisplay") -> None:
+        """Show solution path."""
+        if self.painter:
+            self.painter.draw_path()
+            self.redraw()
+
+    def hide_solution(self: "MazeDisplay") -> None:
+        """Hide solution path."""
+        if self.painter:
+            self.painter.clear_path()
+            self.redraw()
 
     def show_choices(self: "MazeDisplay") -> None:
         if self.maze is None or self.pad is None:
@@ -288,12 +301,23 @@ class MazeDisplay:
         """
         if self.pad is None or self.painter is None:
             return True
+        # Clear any message
+        self.pad.move(self.prompt_row + 1, 0)
+        self.pad.clrtoeol()
         self.scroll_to_prompt()
         # Get input
         user_input = self.get_user_input()
         # Regenerate new maze
         if user_input == "1":
             self.display_maze()
+            return True
+        elif user_input == "2":
+            if self.solution_visible:
+                self.hide_solution()
+                self.solution_visible = False
+            else:
+                self.show_solution()
+                self.solution_visible = True
             return True
         # Quit
         elif user_input == "4":

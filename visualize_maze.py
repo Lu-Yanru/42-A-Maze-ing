@@ -151,19 +151,107 @@ class MazePainter:
             self.draw_horizontal_walls(row, y)
             row += 1
 
-    # def draw_path(self: "MazePainter") -> None:
-    #     if self.path is None:
-    #         return
+    def draw_path(self: "MazePainter") -> None:
+        """Draw the solution path on the maze from enrty to exit."""
+        if self.path is None:
+            return
 
-    #     (x, y) = self.maze.entry
-    #     start_row = 1 + y * 2
-    #     self.stdscr.move(start_row, x)
-    #     for i in self.path:
-    #         if i == Cell.NORTH:
-    #             self.draw_str(y - 1, x, self.fill, 3)
-    #         elif i == Cell.SOUTH:
-    #             self.draw_str(y + 1, x, self.fill, 3)
-    #         elif i == Cell.WEST:
-    #             self.draw_str(y, x - 1, self.fill, 3)
-    #         elif i == Cell.EAST:
-    #             self.draw_str(y, x + 1, self.fill, 3)
+        (x, y) = self.maze.entry
+
+        for i in self.path:
+            # Calculate the cell position on the pad
+            cell_row = 1 + y * (self.cell_height + 1)
+            cell_col = 1 + x * (self.cell_width + 1)
+
+            # Fill the cell if it is not entry or exit
+            if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
+                self.draw_str(cell_row, cell_col, self.fill, self.cell_width)
+
+            # Fill the walls between open cells
+            if i == Cell.NORTH:
+                wall_row = cell_row - 1
+                wall_col = cell_col
+                self.draw_str(wall_row, wall_col, self.fill, self.cell_width)
+                y -= 1
+            elif i == Cell.SOUTH:
+                wall_row = cell_row + 1
+                wall_col = cell_col
+                self.draw_str(wall_row, wall_col, self.fill, self.cell_width)
+                y += 1
+            elif i == Cell.WEST:
+                wall_row = cell_row
+                wall_col = cell_col - 1
+                self.draw_str(wall_row, wall_col, self.fill, self.cell_height)
+                x -= 1
+            elif i == Cell.EAST:
+                wall_row = cell_row
+                wall_col = cell_col + self.cell_width
+                self.draw_str(wall_row, wall_col, self.fill, self.cell_height)
+                x += 1
+
+            # Stop if reached the exit
+            if (x, y) == self.maze.exit:
+                break
+
+            # Stop if out of bound
+            if x < 0 or x >= self.maze.width \
+                    or y < 0 or y >= self.maze.height:
+                break
+        # Fill the last cell
+        cell_row = 1 + y * (self.cell_height + 1)
+        cell_col = 1 + x * (self.cell_width + 1)
+        if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
+            self.draw_str(cell_row, cell_col, self.fill, self.cell_width)
+
+    def clear_path(self: "MazePainter") -> None:
+        """Clear the solution path on the maze from exit to entry."""
+        if self.path is None:
+            return
+
+        (x, y) = self.maze.exit
+
+        for i in reversed(self.path):
+            # Calculate the cell position on the pad
+            cell_row = 1 + y * (self.cell_height + 1)
+            cell_col = 1 + x * (self.cell_width + 1)
+
+            # Clear the cell
+            if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
+                self.draw_str(cell_row, cell_col, " ", self.cell_width)
+
+            # Clear walls between open cells
+            opp = Grid.get_opposite_direction(i)
+            if opp == Cell.NORTH:
+                wall_row = cell_row - 1
+                wall_col = cell_col
+                self.draw_str(wall_row, wall_col, " ", self.cell_width)
+                y -= 1
+            elif opp == Cell.SOUTH:
+                wall_row = cell_row + 1
+                wall_col = cell_col
+                self.draw_str(wall_row, wall_col, " ", self.cell_width)
+                y += 1
+            elif opp == Cell.WEST:
+                wall_row = cell_row
+                wall_col = cell_col - 1
+                self.draw_str(wall_row, wall_col, " ", self.cell_height)
+                x -= 1
+            elif opp == Cell.EAST:
+                wall_row = cell_row
+                wall_col = cell_col + self.cell_width
+                self.draw_str(wall_row, wall_col, " ", self.cell_height)
+                x += 1
+
+            # Stop if reached the entry
+            if (x, y) == self.maze.entry:
+                break
+
+            # Stop if out of bound
+            if x < 0 or x >= self.maze.width \
+                    or y < 0 or y >= self.maze.height:
+                break
+        # Clear last cell
+        cell_row = 1 + y * (self.cell_height + 1)
+        cell_col = 1 + x * (self.cell_width + 1)
+        if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
+            self.draw_str(cell_row, cell_col, " ", self.cell_width)

@@ -83,12 +83,12 @@ class Grid:
                         cell.visited = True
 
         # Check if entry and exit points are in the 42 pattern
-        entry_cell = self.grid[self.entry[1]][self.entry[0]]
-        exit_cell = self.grid[self.exit[1]][self.exit[0]]
-        if entry_cell.is_42 is True:
+        entry_cell = self.get_cell(self.entry[0], self.entry[1])
+        exit_cell = self.get_cell(self.exit[0], self.exit[1])
+        if entry_cell is None or entry_cell.is_42 is True:
             raise ConfigError("ConfigError: "
                               "Entry point is inside 42 pattern.")
-        if exit_cell.is_42 is True:
+        if exit_cell is None or exit_cell.is_42 is True:
             raise ConfigError("ConfigError: "
                               "Exit point is inside 42 pattern.")
 
