@@ -82,11 +82,12 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
 - Visualization
     - x Display walls (lucas)
     - x Display entry and exit points (lucas)
-    - User interaction
-        - Prompt
-        - Regenerate maze
-        - Show/hide solution
-        - Change wall color
+    - x User interaction (yanru)
+        - x Prompt
+        - x Regenerate maze
+        - x Show/hide solution
+        - x Change colors
+        - Animation
 - Make reuable module
 
 ### Reflections
@@ -103,7 +104,7 @@ What worked well and what coulde be improved
 - [List of Unicode Characters of Category “Other Symbol”](https://www.compart.com/en/unicode/category/So)
 - [Python curses module documentation](https://docs.python.org/3/library/curses.html)
 - [Python curses module tutorial](https://www.youtube.com/playlist?list=PLzMcBGfZo4-n2TONAOImWL4sgZsmyMBc8)
-- https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing
+- [256 ANSI color codes](https://hexdocs.pm/color_palette/ansi_color_codes.html)
 
 ### Tools used
 - **git**: Version control and collaboration
