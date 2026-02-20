@@ -6,7 +6,7 @@ from maze_grid import Grid
 
 class MazePainter:
     """A class for drawing the maze."""
-    def __init__(self: "MazePainter", stdscr, maze: Grid,
+    def __init__(self: "MazePainter", stdscr: curses.window, maze: Grid,
                  path: list[int] | None):
         """Initialize the visualizer."""
         self.stdscr = stdscr
@@ -167,37 +167,3 @@ class MazePainter:
     #             self.draw_str(y, x - 1, self.fill, 3)
     #         elif i == Cell.EAST:
     #             self.draw_str(y, x + 1, self.fill, 3)
-
-    def show_choices(self: "MazePainter") -> None:
-        start_row = self.maze.height * 2 + 1 + 2
-
-        try:
-            self.stdscr.move(start_row, 0)
-            self.stdscr.addstr(start_row, 0,
-                               "=== A-Maze-ing ===")
-            self.stdscr.addstr(start_row + 1, 0,
-                               "Use ← ↑ → ↓ to scroll.")
-            self.stdscr.addstr(start_row + 2, 0,
-                               "Press i to enter input mode.")
-            self.stdscr.addstr(start_row + 3, 0,
-                               "1. Re-generate a new maze")
-            self.stdscr.addstr(start_row + 4, 0,
-                               "2. Show/Hide path from entry to exit")
-            self.stdscr.addstr(start_row + 5, 0,
-                               "3. Rotate maze colors")
-            self.stdscr.addstr(start_row + 6, 0,
-                               "4. Quit")
-            self.stdscr.addstr(start_row + 7, 0,
-                               "Choice? (1-4): ")
-        except curses.error:
-            pass
-
-    def display_message(self: "MazePainter", message: str) -> None:
-        start_row = self.maze.height * 2 + 1 + 2 + 8
-
-        try:
-            self.stdscr.move(start_row, 0)
-            self.stdscr.clrtoeol()
-            self.stdscr.addstr(start_row, 0, message)
-        except curses.error:
-            pass

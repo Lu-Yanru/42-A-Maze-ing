@@ -93,13 +93,53 @@ class MazeDisplay:
         curses.curs_set(0)
 
         self.painter.print_walls()
-        self.painter.show_choices()
+        self.show_choices()
 
         # The position where the prompt should be shown
         self.prompt_row = self.maze.height * 2 + 1 + 2 + 7
 
         # Display on pad
         self.redraw()
+
+    def show_choices(self: "MazeDisplay") -> None:
+        if self.maze is None or self.pad is None:
+            return
+
+        start_row = self.maze.height * 2 + 1 + 2
+
+        try:
+            self.pad.move(start_row, 0)
+            self.pad.addstr(start_row, 0,
+                            "=== A-Maze-ing ===")
+            self.pad.addstr(start_row + 1, 0,
+                            "Use ← ↑ → ↓ to scroll.")
+            self.pad.addstr(start_row + 2, 0,
+                            "Press i to enter input mode.")
+            self.pad.addstr(start_row + 3, 0,
+                            "1. Re-generate a new maze")
+            self.pad.addstr(start_row + 4, 0,
+                            "2. Show/Hide path from entry to exit")
+            self.pad.addstr(start_row + 5, 0,
+                            "3. Rotate maze colors")
+            self.pad.addstr(start_row + 6, 0,
+                            "4. Quit")
+            self.pad.addstr(start_row + 7, 0,
+                            "Choice? (1-4): ")
+        except curses.error:
+            pass
+
+    def display_message(self: "MazeDisplay", message: str) -> None:
+        if self.maze is None or self.pad is None:
+            return
+
+        start_row = self.maze.height * 2 + 1 + 2 + 8
+
+        try:
+            self.pad.move(start_row, 0)
+            self.pad.clrtoeol()
+            self.pad.addstr(start_row, 0, message)
+        except curses.error:
+            pass
 
     def handle_resize(self: "MazeDisplay") -> None:
         """Redraw when resize the terminal window."""
@@ -143,29 +183,107 @@ class MazeDisplay:
             self.redraw()
 
     def get_user_input(self: "MazeDisplay") -> str:
-        """Get user input."""
+        """
+        Get user input.
+        This has to be done with stdscr
+        because we can't put a textpad on a pad,
+        and a pad cannot getchr().
+        """
         if self.pad is None:
             return ""
+
+        # Get the position of the prompt on the screen
+        prompt_screen_y = self.prompt_row - self.scroll_offset_y
+        prompt_screen_x = self.prompt_col - self.scroll_offset_x
+
+        # Make sure prompt is visible on screen
+        if prompt_screen_y < 0 or prompt_screen_y >= self.screen_height - 1:
+            return ""
+        if prompt_screen_x < 0:
+            prompt_screen_x = 0
+
+        # Show cursor
+        curses.curs_set(1)
+
+        # Clear input area on stdscr
         try:
-            self.pad.move(self.prompt_row, self.prompt_col)
+            self.stdscr.move(prompt_screen_y, prompt_screen_x)
             # Clear the line
-            self.pad.clrtoeol()
+            self.stdscr.clrtoeol()
+            self.stdscr.refresh()
         except curses.error:
             pass
 
-        # Show cursor and input
-        curses.curs_set(1)
-        curses.echo()
-
         # Get input
-        res = self.pad.getstr(self.prompt_row, self.prompt_col)
-        str = res.decode("utf-8").strip()
+        res = ""
+        cursor_pos = 0
 
-        # Hide cursor and disable echo
-        curses.noecho()
+        while True:
+            # Display current input
+            try:
+                self.stdscr.move(prompt_screen_y, prompt_screen_x)
+                self.stdscr.clrtoeol()
+                self.stdscr.addstr(prompt_screen_y, prompt_screen_x, res)
+                self.stdscr.move(prompt_screen_y, prompt_screen_x + cursor_pos)
+                self.stdscr.refresh()
+            except curses.error:
+                pass
+
+            key = self.stdscr.getch()
+
+            # Stop with enter
+            if key in [curses.KEY_ENTER, 10, 13]:
+                break
+
+            # Delete
+            elif key == curses.KEY_BACKSPACE:
+                if cursor_pos > 0:
+                    res = res[:cursor_pos-1] + res[cursor_pos:]
+                    cursor_pos -= 1
+            elif key == curses.KEY_DC:
+                if cursor_pos < len(res):
+                    res = res[:cursor_pos] + res[cursor_pos+1:]
+
+            # Move left and right with arrows
+            elif key == curses.KEY_LEFT:
+                if cursor_pos > 0:
+                    cursor_pos -= 1
+            elif key == curses.KEY_RIGHT:
+                if cursor_pos < len(res):
+                    cursor_pos += 1
+
+            # Print out printable characters
+            elif 32 <= key <= 126:
+                char = chr(key)
+                res = res[:cursor_pos] + char + res[cursor_pos:]
+                cursor_pos += 1
+                # Limit input length
+                if len(res) > 10:
+                    res = res[:10]
+                    cursor_pos = min(cursor_pos, 10)
+
+        # Hide cursor
         curses.curs_set(0)
 
-        return str
+        # Update the pad with the final input
+        try:
+            self.pad.move(self.prompt_row, self.prompt_col)
+            self.pad.clrtoeol()
+            self.pad.refresh(self.scroll_offset_y, self.scroll_offset_x,
+                             0, 0,
+                             self.screen_height - 1, self.screen_width - 1)
+        except curses.error:
+            pass
+
+        # Clear the input area on stdscr
+        try:
+            self.stdscr.move(prompt_screen_y, prompt_screen_x)
+            self.stdscr.clrtoeol()
+            self.stdscr.refresh()
+        except curses.error:
+            pass
+
+        return res.strip()
 
     def handle_user_input(self) -> bool:
         """
@@ -186,7 +304,7 @@ class MazeDisplay:
             return False
         # Invalid choice
         else:
-            self.painter.display_message("Invalid choice!")
+            self.display_message("Invalid choice!")
             self.pad.move(self.prompt_row, self.prompt_col)
             self.pad.clrtoeol()
             self.redraw()
