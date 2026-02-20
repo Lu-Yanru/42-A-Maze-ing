@@ -1,3 +1,6 @@
+"""Display the maze and a user interface on a scrollable curses pad."""
+
+
 import curses
 
 from parse_config_file import Config
@@ -6,6 +9,7 @@ from maze_generator import MazeGenerator
 from maze_solver import MazeSolver
 from write_output import OutputWriter
 from visualize_maze import MazePainter
+from visualize_colors import ColorTheme
 
 
 class MazeDisplay:
@@ -27,6 +31,8 @@ class MazeDisplay:
         self.menu_height = 11
         self.prompt_row = 0
         self.prompt_col = len("Choice? (1-4): ")
+        # Color theme
+        self.current_theme = 0
         # Pad and MazePainter
         self.pad: curses.window | None = None
         self.painter: MazePainter | None = None
@@ -88,7 +94,8 @@ class MazeDisplay:
         self.pad = curses.newpad(pad_height, pad_width)
 
         # Draw on the pad
-        self.painter = MazePainter(self.pad, self.maze, self.solution)
+        theme = ColorTheme.get_theme(self.current_theme)
+        self.painter = MazePainter(self.pad, self.maze, self.solution, theme)
 
         # Hide cursor
         curses.curs_set(0)
@@ -113,6 +120,22 @@ class MazeDisplay:
         if self.painter:
             self.painter.clear_path()
             self.redraw()
+
+    def rotate_colors(self: "MazeDisplay") -> None:
+        """Rotate to the next color theme."""
+        if self.pad is None or self.maze is None:
+            return
+
+        self.current_theme = (self.current_theme + 1) \
+            % ColorTheme.get_theme_count()
+
+        theme = ColorTheme.get_theme(self.current_theme)
+        self.painter = MazePainter(self.pad, self.maze, self.solution, theme)
+        self.painter.print_walls()
+        self.show_choices()
+        if self.solution_visible:
+            self.painter.draw_path()
+        self.redraw()
 
     def show_choices(self: "MazeDisplay") -> None:
         if self.maze is None or self.pad is None:
@@ -318,6 +341,10 @@ class MazeDisplay:
             else:
                 self.show_solution()
                 self.solution_visible = True
+            return True
+        # Rotate colors
+        elif user_input == "3":
+            self.rotate_colors()
             return True
         # Quit
         elif user_input == "4":
