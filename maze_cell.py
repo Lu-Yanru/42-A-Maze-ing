@@ -22,7 +22,7 @@ class Cell:
     SOUTH = 4  # 0100
     WEST = 8  # 1000
 
-    def __init__(self: "Cell", pos: tuple, visited: bool = False,
+    def __init__(self: "Cell", pos: tuple[int, int], visited: bool = False,
                  walls: int = 15, is_42: bool = False) -> None:
         """
         Creates a cell.

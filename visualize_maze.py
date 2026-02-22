@@ -30,7 +30,7 @@ class MazePainter:
             self.theme = theme
         self.init_colors()
         # Animation
-        self.pad_refresh_params: tuple | None = None
+        self.pad_refresh_params: tuple[int, int, int, int] | None = None
         self.delay = delay
 
     def print_ascii(self: "MazePainter") -> None:
@@ -133,7 +133,7 @@ class MazePainter:
         return col + repeat
 
     def draw_entry_exit(self: "MazePainter", char: str,
-                        color_pair: int):
+                        color_pair: int) -> None:
         if char.upper() == "E":
             (x, y) = self.maze.entry
         elif char.upper() == "X":

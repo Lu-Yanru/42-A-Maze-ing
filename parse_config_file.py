@@ -12,7 +12,7 @@ class ConfigError(Exception):
 
 
 class Config():
-    def __init__(self: "Config", config: dict) -> None:
+    def __init__(self: "Config", config: dict[str, str]) -> None:
         self.width = int(config["WIDTH"])
         self.height = int(config["HEIGHT"])
         self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
@@ -25,7 +25,7 @@ class Config():
             self.algo = config["ALGORITHM"]
 
 
-def parse_config_file(file_name: str) -> dict:
+def parse_config_file(file_name: str) -> dict[str, str]:
     file = open(file_name, "r")
     lines = []
     lines = file.read().split("\n")

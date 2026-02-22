@@ -4,7 +4,7 @@
 class ColorTheme:
     """Represents a color theme."""
 
-    THEMES: dict = {}
+    THEMES: dict[int, "ColorTheme"] = {}
 
     def __init__(self: "ColorTheme", name: str, walls: int, entry: int,
                  exit: int, path: int, fill_42: int) -> None:
@@ -27,7 +27,7 @@ class ColorTheme:
         self.fill_42 = fill_42
 
     @classmethod
-    def initialze_themes(cls: "type[ColorTheme]"):
+    def initialze_themes(cls: "type[ColorTheme]") -> None:
         """Initalize all color themes."""
         cls.THEMES = {
             0: cls(
