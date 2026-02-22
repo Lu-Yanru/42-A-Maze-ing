@@ -60,11 +60,14 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
 
 ## Project management
 
-### Planning and task divitions
+### Task divisions
 - README (each write own stuff)
 - Makefile (lucas)
 - Read configuration file and check validity (lucas)
-- Generate maze
+    - store in Config class in appropriate format int/str/bool
+    - check validity: data type, mandatory fields, extra fields?, entry and exit points not out of bound or overlap
+    - ignore comment lines starting with #
+- x Generate maze
 	- x Grid representation (yanru)
 		- x Terminal output for testing
 	    - x Fixed 42 pattern and config checking
@@ -79,7 +82,7 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
     - x Write maze to output
     - x Write entry and exit points
     - x Write solution
-- Visualization
+- x Visualization
     - x Display walls (lucas)
     - x Display entry and exit points (lucas)
     - x User interaction (yanru)
@@ -87,8 +90,10 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
         - x Regenerate maze
         - x Show/hide solution
         - x Change colors
-        - Animation
+        - x Animation
 - Make reuable module
+
+### Initial planning and evolution
 
 ### Reflections
 What worked well and what coulde be improved
@@ -105,6 +110,7 @@ What worked well and what coulde be improved
 - [Python curses module documentation](https://docs.python.org/3/library/curses.html)
 - [Python curses module tutorial](https://www.youtube.com/playlist?list=PLzMcBGfZo4-n2TONAOImWL4sgZsmyMBc8)
 - [256 ANSI color codes](https://hexdocs.pm/color_palette/ansi_color_codes.html)
+- https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing
 
 ### Tools used
 - **git**: Version control and collaboration

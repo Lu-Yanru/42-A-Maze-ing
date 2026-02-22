@@ -2,6 +2,7 @@
 
 
 import curses
+import time
 
 from maze_cell import Cell
 from maze_grid import Grid
@@ -11,7 +12,9 @@ from visualize_colors import ColorTheme
 class MazePainter:
     """A class for drawing the maze."""
     def __init__(self: "MazePainter", stdscr: curses.window, maze: Grid,
-                 path: list[int] | None, theme: ColorTheme | None = None):
+                 path: list[int] | None,
+                 theme: ColorTheme | None = None,
+                 delay: float = 0.01) -> None:
         """Initialize the visualizer."""
         self.stdscr = stdscr
         self.maze = maze
@@ -25,8 +28,10 @@ class MazePainter:
             self.theme = ColorTheme.get_theme(0)
         else:
             self.theme = theme
-
         self.init_colors()
+        # Animation
+        self.pad_refresh_params: tuple | None = None
+        self.delay = delay
 
     def print_ascii(self: "MazePainter") -> None:
         # Print top border
@@ -78,6 +83,39 @@ class MazePainter:
         # Set the space character to the default fore- and background colors
         self.stdscr.bkgd(" ", curses.color_pair(1))
 
+    def set_pad_refresh_params(self: "MazePainter", scroll_offset_y: int,
+                               scroll_offset_x: int, screen_height: int,
+                               screen_width: int) -> None:
+        """Set parameters for refreshing pad."""
+        self.pad_refresh_params = (scroll_offset_y, scroll_offset_x,
+                                   screen_height, screen_width)
+
+    def animate(self: "MazePainter") -> None:
+        """Do one animation step, refresh and delay."""
+        if self.delay > 0 and self.pad_refresh_params:
+            (scroll_offset_y, scroll_offset_x, screen_height,
+             screen_width) = self.pad_refresh_params
+            try:
+                self.stdscr.refresh(scroll_offset_y, scroll_offset_x, 0, 0,
+                                    screen_height - 1, screen_width - 1)
+                time.sleep(self.delay)
+            except curses.error:
+                pass
+
+    def get_cell_row(self: "MazePainter", y: int) -> int:
+        """
+        Get the row position of the cell on the pad
+        from its y position in the grid.
+        """
+        return 1 + y * (self.cell_height + 1)
+
+    def get_cell_col(self: "MazePainter", x: int) -> int:
+        """
+        Get the column position of the cell on the pad
+        from its x position in the grid.
+        """
+        return 1 + x * (self.cell_width + 1)
+
     def draw_char(self: "MazePainter", row: int, col: int,
                   char: str, color_pair: int = 0) -> None:
         """Draw a single character at position (row, col)."""
@@ -91,22 +129,34 @@ class MazePainter:
         """Repeat drawing a character multiple times in a row."""
         for i in range(repeat):
             self.draw_char(row, col + i, char, color_pair)
+        self.animate()
         return col + repeat
 
-    def draw_entry_exit(self: "MazePainter", row: int, col: int,
-                        char: str, color_pair: int) -> int:
-        self.draw_char(row, col, " ", color_pair)
-        col += 1
-        self.draw_char(row, col, char, color_pair)
-        col += 1
-        self.draw_char(row, col, " ", color_pair)
-        col += 1
-        return col
+    def draw_entry_exit(self: "MazePainter", char: str,
+                        color_pair: int):
+        if char.upper() == "E":
+            (x, y) = self.maze.entry
+        elif char.upper() == "X":
+            (x, y) = self.maze.exit
+        else:
+            return
 
-    def fill_42(self: "MazePainter", row: int, col: int,
-                char: str, repeat: int) -> int:
-        col = self.draw_str(row, col, self.fill, self.cell_width, 5)
-        return col
+        cell_row = self.get_cell_row(y)
+        cell_col = self.get_cell_col(x)
+        self.draw_char(cell_row, cell_col, " ", color_pair)
+        self.draw_char(cell_row, cell_col + 1, char, color_pair)
+        self.draw_char(cell_row, cell_col + 2, " ", color_pair)
+
+    def fill_42(self: "MazePainter") -> None:
+        """Fill the 42 pattern."""
+        for y in range(self.maze.height):
+            for x in range(self.maze.width):
+                cell = self.maze.grid[y][x]
+                if cell.is_42:
+                    cell_row = self.get_cell_row(y)
+                    cell_col = self.get_cell_col(x)
+                    self.draw_str(cell_row, cell_col, self.fill,
+                                  self.cell_width, 5)
 
     def draw_top_border(self: "MazePainter", row: int) -> None:
         """Draw the top border of the maze."""
@@ -132,14 +182,15 @@ class MazePainter:
                 col = self.draw_str(row, col, " ", self.cell_height, 1)
 
             # Determine the character inside the cell
-            if (x, y) == self.maze.entry:
-                col = self.draw_entry_exit(row, col, "E", 2)
-            elif (x, y) == self.maze.exit:
-                col = self.draw_entry_exit(row, col, "X", 3)
-            elif cell.is_42:
-                col = self.fill_42(row, col, self.fill, self.cell_width)
-            else:
-                col = self.draw_str(row, col, " ", self.cell_width, 1)
+            # if (x, y) == self.maze.entry:
+            #     col = self.draw_entry_exit(row, col, "E", 2)
+            # elif (x, y) == self.maze.exit:
+            #     col = self.draw_entry_exit(row, col, "X", 3)
+            # elif cell.is_42:
+            #     col = self.fill_42(row, col, self.fill, self.cell_width)
+            # else:
+            # Inside of the cell
+            col = self.draw_str(row, col, " ", self.cell_width, 1)
         # Rightmost border
         col = self.draw_str(row, col, self.wall, self.cell_height, 1)
 
@@ -178,8 +229,8 @@ class MazePainter:
 
         for i in self.path:
             # Calculate the cell position on the pad
-            cell_row = 1 + y * (self.cell_height + 1)
-            cell_col = 1 + x * (self.cell_width + 1)
+            cell_row = self.get_cell_row(y)
+            cell_col = self.get_cell_col(x)
 
             # Fill the cell if it is not entry or exit
             if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
@@ -212,17 +263,9 @@ class MazePainter:
                               self.cell_height, 4)
                 x += 1
 
-            # Stop if reached the exit
-            if (x, y) == self.maze.exit:
-                break
-
-            # Stop if out of bound
-            if x < 0 or x >= self.maze.width \
-                    or y < 0 or y >= self.maze.height:
-                break
         # Fill the last cell
-        cell_row = 1 + y * (self.cell_height + 1)
-        cell_col = 1 + x * (self.cell_width + 1)
+        cell_row = self.get_cell_row(y)
+        cell_col = self.get_cell_col(x)
         if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
             self.draw_str(cell_row, cell_col, self.fill,
                           self.cell_width, 4)
@@ -236,8 +279,8 @@ class MazePainter:
 
         for i in reversed(self.path):
             # Calculate the cell position on the pad
-            cell_row = 1 + y * (self.cell_height + 1)
-            cell_col = 1 + x * (self.cell_width + 1)
+            cell_row = self.get_cell_row(y)
+            cell_col = self.get_cell_col(x)
 
             # Clear the cell
             if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
@@ -266,16 +309,8 @@ class MazePainter:
                 self.draw_str(wall_row, wall_col, " ", self.cell_height)
                 x += 1
 
-            # Stop if reached the entry
-            if (x, y) == self.maze.entry:
-                break
-
-            # Stop if out of bound
-            if x < 0 or x >= self.maze.width \
-                    or y < 0 or y >= self.maze.height:
-                break
         # Clear last cell
-        cell_row = 1 + y * (self.cell_height + 1)
-        cell_col = 1 + x * (self.cell_width + 1)
+        cell_row = self.get_cell_row(y)
+        cell_col = self.get_cell_col(x)
         if (x, y) != self.maze.entry and (x, y) != self.maze.exit:
             self.draw_str(cell_row, cell_col, " ", self.cell_width)

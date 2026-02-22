@@ -53,7 +53,7 @@ class MazeDisplay:
         output.write_output_file()
 
     def redraw(self: "MazeDisplay") -> None:
-        """Redraw everything after resize or update."""
+        """Refresh the pad after resize or update."""
         # Get current screen dimensions
         self.screen_height, self.screen_width = self.stdscr.getmaxyx()
 
@@ -96,12 +96,19 @@ class MazeDisplay:
         # Draw on the pad
         theme = ColorTheme.get_theme(self.current_theme)
         self.painter = MazePainter(self.pad, self.maze, self.solution, theme)
+        self.painter.set_pad_refresh_params(self.scroll_offset_y,
+                                            self.scroll_offset_x,
+                                            self.screen_height,
+                                            self.screen_width)
 
         # Hide cursor
         curses.curs_set(0)
 
-        self.painter.print_walls()
         self.show_choices()
+        self.painter.print_walls()
+        self.painter.fill_42()
+        self.painter.draw_entry_exit("E", 2)
+        self.painter.draw_entry_exit("X", 3)
 
         # The position where the prompt should be shown
         self.prompt_row = self.maze.height * 2 + 1 + 2 + 7
@@ -126,13 +133,23 @@ class MazeDisplay:
         if self.pad is None or self.maze is None:
             return
 
+        # Clear the pad
+        self.pad.clear()
+
         self.current_theme = (self.current_theme + 1) \
             % ColorTheme.get_theme_count()
 
         theme = ColorTheme.get_theme(self.current_theme)
         self.painter = MazePainter(self.pad, self.maze, self.solution, theme)
-        self.painter.print_walls()
+        self.painter.set_pad_refresh_params(self.scroll_offset_y,
+                                            self.scroll_offset_x,
+                                            self.screen_height,
+                                            self.screen_width)
         self.show_choices()
+        self.painter.print_walls()
+        self.painter.fill_42()
+        self.painter.draw_entry_exit("E", 2)
+        self.painter.draw_entry_exit("X", 3)
         if self.solution_visible:
             self.painter.draw_path()
         self.redraw()
@@ -270,7 +287,7 @@ class MazeDisplay:
                 break
 
             # Delete
-            elif key == curses.KEY_BACKSPACE:
+            elif key in [curses.KEY_BACKSPACE, 127, 8]:
                 if cursor_pos > 0:
                     res = res[:cursor_pos-1] + res[cursor_pos:]
                     cursor_pos -= 1
@@ -335,8 +352,9 @@ class MazeDisplay:
         # Regenerate new maze
         if user_input == "1":
             self.display_maze()
+            self.solution_visible = False
             return True
-        # SHhow/hide solution
+        # Show/hide solution
         elif user_input == "2":
             if self.solution_visible:
                 self.hide_solution()
