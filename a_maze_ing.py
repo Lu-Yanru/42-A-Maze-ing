@@ -17,7 +17,6 @@ def main() -> None:
         maze_config = Config(configs)
 
         # Visualize
-        # Visualizer(maze).print_ascii()
         def run_display(stdscr: curses.window) -> None:
             display = MazeDisplay(stdscr, maze_config)
             display.run()

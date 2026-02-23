@@ -180,15 +180,6 @@ class MazePainter:
                 col = self.draw_str(row, col, self.wall, self.cell_height, 1)
             else:
                 col = self.draw_str(row, col, " ", self.cell_height, 1)
-
-            # Determine the character inside the cell
-            # if (x, y) == self.maze.entry:
-            #     col = self.draw_entry_exit(row, col, "E", 2)
-            # elif (x, y) == self.maze.exit:
-            #     col = self.draw_entry_exit(row, col, "X", 3)
-            # elif cell.is_42:
-            #     col = self.fill_42(row, col, self.fill, self.cell_width)
-            # else:
             # Inside of the cell
             col = self.draw_str(row, col, " ", self.cell_width, 1)
         # Rightmost border
