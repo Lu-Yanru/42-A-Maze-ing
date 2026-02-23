@@ -110,6 +110,9 @@ What worked well and what coulde be improved
 - [Python curses module documentation](https://docs.python.org/3/library/curses.html)
 - [Python curses module tutorial](https://www.youtube.com/playlist?list=PLzMcBGfZo4-n2TONAOImWL4sgZsmyMBc8)
 - [256 ANSI color codes](https://hexdocs.pm/color_palette/ansi_color_codes.html)
+- [Packaging python projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+- [Python virtual environment venv](https://www.w3schools.com/python/python_virtualenv.asp)
+- [Creating a Python Makefile](https://earthly.dev/blog/python-makefile/)
 - https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing
 
 ### Tools used
