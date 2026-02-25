@@ -26,16 +26,15 @@ class Config():
 
 
 def parse_config_file(file_name: str) -> dict[str, str]:
-    file = open(file_name, "r")
-    lines = []
-    lines = file.read().split("\n")
+    with open(file_name, "r") as file:
+        lines = []
+        lines = file.read().split("\n")
 
-    defines = {}
+        defines = {}
 
-    for line in lines:
-        if "=" in line:
-            key = line.split("=")[0]
-            value = line.split("=")[1]
-            defines[key] = value
-    file.close()
+        for line in lines:
+            if "=" in line:
+                key = line.split("=")[0]
+                value = line.split("=")[1]
+                defines[key] = value
     return defines
