@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mazegen"
+version = "1.0.0"
+authors = [
+  { name="Yanru Lu", email="yanlu@student.42berlin.de" },
+  { name="Lucas Vasconcelos", email="lvasconc@student.42berlin.de" },
+]
+description = "A package for generating a maze."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "AGPL-3.0"
+license-files = ["LICEN[CS]E*"]
+
+[tool.setuptools]
+py-modules = [
+    "maze_algo_dfs",
+    "maze_algo_prim",
+    "maze_cell",
+    "maze_config",
+    "maze_generator",
+    "maze_grid",
+    "maze_imperfect",
+    "maze_solver"
+]

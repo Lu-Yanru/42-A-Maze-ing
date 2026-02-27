@@ -3,8 +3,8 @@ Generate a grid with all closed cells and a 42 pattern in the center.
 Defines class Grid -- a 2D array, each element is a Cell.
 """
 
-from parse_config_file import Config, ConfigError
-from maze_cell import Cell
+from mazegen.maze_config import Config, ConfigError
+from mazegen.maze_cell import Cell
 
 
 class Grid:

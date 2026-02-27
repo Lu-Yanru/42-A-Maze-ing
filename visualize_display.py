@@ -3,10 +3,10 @@
 
 import curses
 
-from parse_config_file import Config
-from maze_grid import Grid
-from maze_generator import MazeGenerator
-from maze_solver import MazeSolver
+from mazegen.maze_config import Config
+from mazegen.maze_grid import Grid
+from mazegen.maze_generator import MazeGenerator
+from mazegen.maze_solver import MazeSolver
 from write_output import OutputWriter
 from visualize_maze import MazePainter
 from visualize_colors import ColorTheme

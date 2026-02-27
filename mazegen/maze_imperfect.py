@@ -4,10 +4,10 @@ by removing some walls from the perfect maze.
 """
 import random
 
-from parse_config_file import Config
-from maze_cell import Cell
-from maze_grid import Grid
-from maze_generator import MazeGenerator
+from mazegen.maze_config import Config
+from mazegen.maze_cell import Cell
+from mazegen.maze_grid import Grid
+from mazegen.maze_generator import MazeGenerator
 
 
 class MazeImperfect(Grid):

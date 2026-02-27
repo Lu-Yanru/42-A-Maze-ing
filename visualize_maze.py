@@ -4,8 +4,8 @@
 import curses
 import time
 
-from maze_cell import Cell
-from maze_grid import Grid
+from mazegen.maze_cell import Cell
+from mazegen.maze_grid import Grid
 from visualize_colors import ColorTheme
 
 

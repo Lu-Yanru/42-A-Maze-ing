@@ -2,7 +2,7 @@ import curses
 import sys
 
 import parse_config_file as parsing
-from parse_config_file import Config, ConfigError
+from mazegen.maze_config import Config, ConfigError
 from visualize_display import MazeDisplay
 
 

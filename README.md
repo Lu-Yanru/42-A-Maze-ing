@@ -91,7 +91,7 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
         - x Show/hide solution
         - x Change colors
         - x Animation
-- Make reuable module
+- Make reuable module (yanru)
 
 ### Initial planning and evolution
 
@@ -114,10 +114,12 @@ What worked well and what coulde be improved
 - [Python virtual environment venv](https://www.w3schools.com/python/python_virtualenv.asp)
 - [Creating a Python Makefile](https://earthly.dev/blog/python-makefile/)
 - https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing
+- https://github.com/KeroBeros68/a_maze_ing
 
 ### Tools used
 - **git**: Version control and collaboration
+- **pip**: Install packages
 - **flake8**: Code linting and style checking
 - **mypy**: Static type checker for Python
 
-AI was used to compare different algorithms and explain them step by step with examples.
+AI was used to compare different algorithms and explain them step by step with examples, and to refactor the code.

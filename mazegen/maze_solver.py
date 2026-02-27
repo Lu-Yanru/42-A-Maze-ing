@@ -4,8 +4,8 @@ and includes functions to solve the maze.
 """
 
 
-from maze_cell import Cell
-from maze_grid import Grid
+from mazegen.maze_cell import Cell
+from mazegen.maze_grid import Grid
 
 
 class MazeSolver:
