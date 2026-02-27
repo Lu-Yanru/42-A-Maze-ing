@@ -58,7 +58,20 @@ For example, 3 (binary 0011) means the cell is open to the south and west.
 
 ## Core classes
 - `MazeGenerator`: Main interface for maze generation.
-- `MazeGrid`: Representation of the grid in the form of a 2D int array with a fixed 42 pattern in the center.
+- `Grid`: Representation of a maze with the following attributes:
+    - width (int)
+    - height (int)
+    - entry (tuple[int, int])
+    - exit (tuple[int, int])
+    - grid (list[list[Cell]]): The grid in the form of a 2D array of `Cell` objects.
+    - optionally:
+        - seed
+        - algo(rithm) (str)
+- `Cell`: Representation of a cell in the maze withe the following attributes:
+    - pos (tuple[int, int]): Position of the cell in the maze.
+    - visited (bool): Whether the cell has been visited or not.
+    - walls (int): An interger from 0 to 15 that signifies which walls of the cell are open.
+    - is_42 (bool): Whether the cell is part of the 42 pattern.
 - `Config`: Set the configuration of the maze.
 
 ## Package structure
