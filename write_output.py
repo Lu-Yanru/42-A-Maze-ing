@@ -9,9 +9,9 @@ The exit coordinates.
 The shorted valid path from entry to exit, using the four letters N, E, S, W.
 """
 
-from mazegen.maze_config import Config
-from mazegen.maze_cell import Cell
-from mazegen.maze_grid import Grid
+from mazegen.config.maze_config import Config
+from mazegen.grid.maze_cell import Cell
+from mazegen.grid.maze_grid import Grid
 
 
 class OutputWriter:

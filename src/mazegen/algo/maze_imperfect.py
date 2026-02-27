@@ -4,9 +4,9 @@ by removing some walls from the perfect maze.
 """
 import random
 
-from mazegen.maze_config import Config
-from mazegen.maze_cell import Cell
-from mazegen.maze_grid import Grid
+from mazegen.config.maze_config import Config
+from mazegen.grid.maze_cell import Cell
+from mazegen.grid.maze_grid import Grid
 from mazegen.maze_generator import MazeGenerator
 
 

@@ -5,7 +5,7 @@ MazePrim class that generates a maze using Prim's algorithm.
 
 import random
 
-from mazegen.maze_config import Config, ConfigError
+from mazegen.config.maze_config import Config, ConfigError
 from mazegen.maze_generator import MazeGenerator
 
 

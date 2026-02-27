@@ -6,11 +6,11 @@ the maze based on the perfect and algorithm configuration.
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from mazegen.maze_config import Config, ConfigError
-from mazegen.maze_grid import Grid
+from mazegen.config.maze_config import Config, ConfigError
+from mazegen.grid.maze_grid import Grid
 # Import only for the type hint to avoid circular imports
 if TYPE_CHECKING:
-    from mazegen.maze_imperfect import MazeImperfect
+    from mazegen.algo.maze_imperfect import MazeImperfect
 
 
 class MazeGenerator(Grid, ABC):
@@ -36,9 +36,9 @@ class MazeGenerator(Grid, ABC):
         A function to generate the maze based on the algo
         and perfect value in the config file.
         """
-        from mazegen.maze_algo_dfs import MazeDFS
-        from mazegen.maze_algo_prim import MazePrim
-        from mazegen.maze_imperfect import MazeImperfect
+        from mazegen.algo.maze_algo_dfs import MazeDFS
+        from mazegen.algo.maze_algo_prim import MazePrim
+        from mazegen.algo.maze_imperfect import MazeImperfect
 
         maze: MazeGenerator
         if hasattr(config, "algo"):
