@@ -3,6 +3,7 @@ pyproject.toml
 src/README.md
 src/mazegen/__init__.py
 src/mazegen/maze_generator.py
+src/mazegen/py.typed
 src/mazegen.egg-info/PKG-INFO
 src/mazegen.egg-info/SOURCES.txt
 src/mazegen.egg-info/dependency_links.txt
@@ -191,7 +192,3 @@ src/mazegen/grid/maze_grid.py
 src/mazegen/grid/__pycache__/__init__.cpython-312.pyc
 src/mazegen/grid/__pycache__/maze_cell.cpython-312.pyc
 src/mazegen/grid/__pycache__/maze_grid.cpython-312.pyc
-src/mazegen/solve/__init__.py
-src/mazegen/solve/maze_solver.py
-src/mazegen/solve/__pycache__/__init__.cpython-312.pyc
-src/mazegen/solve/__pycache__/maze_solver.cpython-312.pyc

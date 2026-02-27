@@ -24,4 +24,4 @@ where = ["src"]
 include = ["*"]
 
 [tool.setuptools.package-data]
-"*" = ["README.md"]
+"*" = ["README.md", "py.typed"]

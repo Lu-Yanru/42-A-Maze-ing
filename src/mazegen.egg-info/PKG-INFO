@@ -13,4 +13,76 @@ Dynamic: license-file
 
 # Mazegen - A maze generation package
 
+A Python package for generating a maze based on a user defined configuration.
 
+## Features
+- **Configurable**: User can configure the maze's height and width, entry and exit points, as well as the algorithm used to generate the maze.
+- **Reproducible**: User can set a seed in the configuration to generate the same maze.
+- **Multiple Algorithms**: User can choose between Depth-First Search (DFS) and Prim's algorithm to generate the maze.
+- **Perfect & Imperfect Mazes**: User can choose to generate a perfect or an imperfect maze. A perfect maze is one where there is only one solution, whereas in an imperfect maze, there are multiple solutions.
+
+## Installation
+
+    pip install mazegen-1.0.0-py3-none-any.whl
+
+### Requirements
+Python 3.12 or higher
+
+## Example usage
+
+    from mazegen.config import Config
+    from mazegen.maze_generator import MazeGenerator
+
+    # Configuration
+    config_dict = {
+        "WIDTH": "10",
+        "HEIGHT": "10",
+        "ENTRY": "0,0",
+        "EXIT": "9,9",
+        "OUTPUT_FILE": "maze.txt",
+        "PERFECT": "True",
+        "SEED": "42",
+        "ALGORITHM": "DFS"
+    }
+    config = Config(config_dict)
+
+    # Generate maze
+    maze = MazeGenerator.generate_maze(config)
+
+## Configurations
+- **WIDTH**: Maze width in number of cells
+- **HEIGHT**: Maze height
+- **ENTRY**: Entry coordinates (x,y)
+- **EXIT**: Exit coordinates (x,y)
+- **OUTPUT_FILE**: Output filename
+- **PERFECT**: Generate perfect maze or not
+- **SEED**: Optional, set random seed for reproducibility
+- **ALGORITHM**: Optional, set the algorithm used to generate the maze, DFS or Prim, default DFS
+
+## Maze representation
+The maze is represented as a 2D int array with the first dimension representing the rows and the second dimension representing the columns.
+
+Each int in the array represents a cell and the value of the int represents which walls of the cell are closed.
+A cell is an int from 0 to 15, where the last 4 bits represents the walls.
+The walls are each represented by 1 bit.
+0 means the wall is open, 1 means the wall is closed.
+The north wall is the first bit (LSB), the east wall is the second bit, the south wall is the third bit, the west wall is the 4th bit.
+For example, 3 (binary 0011) means the cell is open to the south and west.
+
+## Core classes
+- `MazeGenerator`: Main interface for maze generation.
+- `MazeGrid`: Representation of the grid in the form of a 2D int array with a fixed 42 pattern in the center.
+- `Config`: Set the configuration of the maze.
+
+## Package structure
+
+    mazegen/
+    ├── algo/                   # Maze generation algorithms
+    │   ├── maze_algo_dfs.py    # DFS
+    │   ├── maze_algo_prim.py   # Prim's algorithm
+    │   └── maze_imperfect.py   # Make a perfect maze imperfect
+    ├── config/                 # Maze configuration
+    ├── grid/                   # Representation of the grid
+    │   ├── maze_cell.py        # Representation of a cell
+    │   └── maze_grid.py        # Representation of the grid with 42 pattern
+    └── maze_generator.py       # Main generator class

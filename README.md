@@ -51,12 +51,100 @@ BFS is suitable for unweighted graphs, which is the case for our maze.
 BFS only need to traverse the graph once to find the shortest path, making it time-efficient. 
 
 
-## Instruction
+## Instructions
+
+### Configuration file format
+#### Mandatory keys:
+| Key | Description | Example |
+|----|-------------|---------|
+| WIDTH | Maze width in number of cells | WIDTH=10 |
+| HEIGHT | Maze height | HEIGHT=10 |
+| ENTRY | Entry coordinates (x,y) | ENTRY=0,0 |
+| EXIT | Exit coordinates (x,y) | EXIT=9,9 |
+| OUTPUT_FILE | Output filename | OUTPUT_FILE=maze.txt |
+| PERFECT | Generate perfect maze or not | PERFERCT=True |
+
+#### Optional keys:
+| Key | Description | Example |
+|----|-------------|---------|
+| SEED | Set random seed for reproducibility | SEED=42 |
+| ALGORITHM | Set the algorithm used to generate the maze, DFS or Prim, default DFS | ALGORITHM=DFS |
 
 ### Reusable module
+The maze generation part of the project is packaged as the `mazegen` reusable module.
 
-### Format of configuration file
+#### Installation
 
+    pip install mazegen-1.0.0-py3-none-any.whl
+
+##### Requirements
+Python 3.12 or higher
+
+#### Example usage
+
+    from mazegen.config import Config
+    from mazegen.maze_generator import MazeGenerator
+
+    # Configuration
+    config_dict = {
+        "WIDTH": "10",
+        "HEIGHT": "10",
+        "ENTRY": "0,0",
+        "EXIT": "9,9",
+        "OUTPUT_FILE": "maze.txt",
+        "PERFECT": "True",
+        "SEED": "42",
+        "ALGORITHM": "DFS"
+    }
+    config = Config(config_dict)
+
+    # Generate maze
+    maze = MazeGenerator.generate_maze(config)
+
+#### Maze representation
+The maze is represented as a 2D int array with the first dimension representing the rows and the second dimension representing the columns.
+
+Each int in the array represents a cell and the value of the int represents which walls of the cell are closed.
+A cell is an int from 0 to 15, where the last 4 bits represents the walls.
+The walls are each represented by 1 bit.
+0 means the wall is open, 1 means the wall is closed.
+The north wall is the first bit (LSB), the east wall is the second bit, the south wall is the third bit, the west wall is the 4th bit.
+For example, 3 (binary 0011) means the cell is open to the south and west.
+
+#### Core classes
+- `MazeGenerator`: Main interface for maze generation.
+- `MazeGrid`: Representation of the grid in the form of a 2D int array with a fixed 42 pattern in the center.
+- `Config`: Set the configuration of the maze.
+
+#### Package structure
+
+    mazegen/
+    ├── algo/                   # Maze generation algorithms
+    │   ├── maze_algo_dfs.py    # DFS
+    │   ├── maze_algo_prim.py   # Prim's algorithm
+    │   └── maze_imperfect.py   # Make a perfect maze imperfect
+    ├── config/                 # Maze configuration
+    ├── grid/                   # Representation of the grid
+    │   ├── maze_cell.py        # Representation of a cell
+    │   └── maze_grid.py        # Representation of the grid with 42 pattern
+    └── maze_generator.py       # Main generator class
+
+### Visualization
+This project uses the `curses` module to render the maze on the terminal with the following user interactions:
+
+- Use the arrow keys ← ↑ → ↓ to scroll the curses window.
+- Press i to enter input mode.
+- Input 1 to regenerate a new maze.
+- Input 2 to show or hide the shortest solution path.
+- Input 3 to rotate maze colors.
+- Input 4 to quit
+
+### Output file format
+The output file consists of the following parts:
+- the maze printed as a grid, where each cell is represented as a hexadecimal digit,
+- the entry coordinates x,y,
+- the exit coordinates x,y,
+- the shortest solution path as a sequence of directions (N/E/S/W) from the entry to the exit.
 
 ## Project management
 
@@ -118,7 +206,7 @@ What worked well and what coulde be improved
 
 ### Tools used
 - **git**: Version control and collaboration
-- **pip**: Install packages
+- **pip**: Package manager
 - **flake8**: Code linting and style checking
 - **mypy**: Static type checker for Python
 
