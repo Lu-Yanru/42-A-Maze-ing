@@ -1,0 +1,11 @@
+# Exclude everything at root level
+exclude *
+
+# Only include src/ contents
+graft src
+
+# Include toml
+include pyproject.toml
+
+# Include license
+inlcude LICENSE

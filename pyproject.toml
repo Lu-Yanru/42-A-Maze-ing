@@ -10,7 +10,7 @@ authors = [
   { name="Lucas Vasconcelos", email="lvasconc@student.42berlin.de" },
 ]
 description = "A package for generating a maze."
-readme = "README.md"
+readme = {file = "src/README.md", content-type = "text/markdown"}
 requires-python = ">=3.12"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -18,3 +18,10 @@ classifiers = [
 ]
 license = "AGPL-3.0"
 license-files = ["LICEN[CS]E*"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+
+[tool.setuptools.package-data]
+"*" = ["README.md"]
