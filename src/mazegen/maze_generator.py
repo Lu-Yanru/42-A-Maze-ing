@@ -42,7 +42,7 @@ class MazeGenerator(Grid, ABC):
 
         maze: MazeGenerator
         if hasattr(config, "algo"):
-            if config.algo == "DSF":
+            if config.algo == "DFS":
                 maze = MazeDFS(config)
             elif config.algo == "Prim":
                 maze = MazePrim(config)
