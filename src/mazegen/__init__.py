@@ -1,8 +1,9 @@
-from . import algo, config, grid
+from . import algo, config, grid, solve
 
 
 __all__ = [
     "algo",
     "config",
-    "grid"
+    "grid",
+    "solve"
 ]

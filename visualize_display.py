@@ -6,7 +6,7 @@ import curses
 from mazegen.config.maze_config import Config
 from mazegen.grid.maze_grid import Grid
 from mazegen.maze_generator import MazeGenerator
-from maze_solver import MazeSolver
+from mazegen.solve.maze_solver import MazeSolver
 from write_output import OutputWriter
 from visualize_maze import MazePainter
 from visualize_colors import ColorTheme

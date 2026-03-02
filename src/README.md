@@ -19,6 +19,7 @@ Python 3.12 or higher
 
     from mazegen.config import Config
     from mazegen.maze_generator import MazeGenerator
+    from mazegen.solve.maze_solver import MazeSolver
 
     # Configuration
     config_dict = {
@@ -36,6 +37,9 @@ Python 3.12 or higher
     # Generate maze
     maze = MazeGenerator.generate_maze(config)
 
+    # Find the shortest solution
+    solution = MazeSolver(maze).solve_maze()
+
 ## Configurations
 - **WIDTH**: Maze width in number of cells
 - **HEIGHT**: Maze height
@@ -46,7 +50,7 @@ Python 3.12 or higher
 - **SEED**: Optional, set random seed for reproducibility
 - **ALGORITHM**: Optional, set the algorithm used to generate the maze, DFS or Prim, default DFS
 
-## Maze representation
+## Maze and solution path representation
 The maze is represented as a 2D int array with the first dimension representing the rows and the second dimension representing the columns.
 
 Each int in the array represents a cell and the value of the int represents which walls of the cell are closed.
@@ -55,6 +59,10 @@ The walls are each represented by 1 bit.
 0 means the wall is open, 1 means the wall is closed.
 The north wall is the first bit (LSB), the east wall is the second bit, the south wall is the third bit, the west wall is the 4th bit.
 For example, 3 (binary 0011) means the cell is open to the south and west.
+
+The solution path is represented as a list of int with each int representing a direction to go starting from the entry point to the exit point.
+1 represents going north, 2 represents going east, 4 represents going south, 8 represents going west.
+
 
 ## Core classes
 - `MazeGenerator`: Main interface for maze generation.
@@ -72,6 +80,7 @@ For example, 3 (binary 0011) means the cell is open to the south and west.
     - visited (bool): Whether the cell has been visited or not.
     - walls (int): An interger from 0 to 15 that signifies which walls of the cell are open.
     - is_42 (bool): Whether the cell is part of the 42 pattern.
+- `MazeSolver`: Find the shortest solution path from entry to exit using the Breadth-First Search (BFS) algorithm (`solve_maze()`). The solution is represented as a list of int.
 - `Config`: Set the configuration of the maze.
 
 ## Package structure
@@ -85,4 +94,6 @@ For example, 3 (binary 0011) means the cell is open to the south and west.
     ├── grid/                   # Representation of the grid
     │   ├── maze_cell.py        # Representation of a cell
     │   └── maze_grid.py        # Representation of the grid with 42 pattern
+    ├── solve/                  # Representation of the solution
+    │   └── maze_solver.py      # Find the shortest solution path from entry to exit
     └── maze_generator.py       # Main generator class
