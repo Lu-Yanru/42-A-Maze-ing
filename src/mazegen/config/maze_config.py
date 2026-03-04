@@ -19,13 +19,44 @@ class Config():
         Initialize a config object
         based on the result of parsing the config file.
         """
-        self.width = int(config["WIDTH"])
-        self.height = int(config["HEIGHT"])
-        self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
-        self.exit = tuple(int(y) for y in config["EXIT"].split(","))
+        try:
+            self.width = int(config["WIDTH"])
+        except Exception:
+            print("INVALID WIDTH - PLEASE CHECK CONFIG FILE USED!")
+            self.width = -1
+        try:
+            self.height = int(config["HEIGHT"])
+        except Exception:
+            print("INVALID HEIGHT - PLEASE CHECK CONFIG FILE USED!")
+            self.height = -1
+        try:
+            self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
+            if self.entry[0] > self.width or self.entry[0] < 0:
+                raise ConfigError
+            elif self.entry[1] > self.height or self.entry[1] < 0:
+                raise ConfigError
+        except ValueError:
+            print("INVALID ENTRY POINT - PLEASE CHECK CONFIG FILE USED!")
+        except ConfigError:
+            print("ENTRY POINT IS OUT OF BOUNDS")
+        try:
+            self.exit = tuple(int(x) for x in config["EXIT"].split(","))
+            if self.exit[0] > self.width or self.exit[0] < 0:
+                raise ConfigError
+            elif self.exit[1] > self.height or self.exit[1] < 0:
+                raise ConfigError
+        except ValueError:
+            print("INVALID ENTRY POINT - PLEASE CHECK CONFIG FILE USED!")
+        except ConfigError:
+            print("EXIT POINT IS OUT OF BOUNDS")
+
         self.output = config["OUTPUT_FILE"]
         self.perfect = config["PERFECT"]
+
         if "SEED" in config:
-            self.seed = int(config["SEED"])
+            try:
+                self.seed = int(config["SEED"])
+            except Exception:
+                print("INVALID SEED - TRY AN INTEGER VALUE")
         if "ALGORITHM" in config:
             self.algo = config["ALGORITHM"]
