@@ -32,23 +32,19 @@ class Config():
         try:
             self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
             if self.entry[0] > self.width or self.entry[0] < 0:
-                raise ConfigError
+                raise ConfigError("ENTRY OUT OF BOUNDS")
             elif self.entry[1] > self.height or self.entry[1] < 0:
-                raise ConfigError
+                raise ConfigError("ENTRY OUT OF BOUNDS")
         except ValueError:
             print("INVALID ENTRY POINT - PLEASE CHECK CONFIG FILE USED!")
-        except ConfigError:
-            print("ENTRY POINT IS OUT OF BOUNDS")
         try:
             self.exit = tuple(int(x) for x in config["EXIT"].split(","))
             if self.exit[0] > self.width or self.exit[0] < 0:
-                raise ConfigError
+                raise ConfigError("EXIT OUT OF BOUNDS")
             elif self.exit[1] > self.height or self.exit[1] < 0:
-                raise ConfigError
+                raise ConfigError("EXIT OUT OF BOUNDS")
         except ValueError:
             print("INVALID ENTRY POINT - PLEASE CHECK CONFIG FILE USED!")
-        except ConfigError:
-            print("EXIT POINT IS OUT OF BOUNDS")
 
         self.output = config["OUTPUT_FILE"]
         self.perfect = config["PERFECT"]
