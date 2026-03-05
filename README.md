@@ -10,7 +10,16 @@ All generated mazes contain a "42" pattern at the center consisting of fully clo
 The following algorithms are implemented to generate the maze:
 
 #### Depth-First Search (DFS) algorithm
+DFS works by
 
+- step 1: Start with a grid where every cell is surrounded by walls.
+- step 2: Pick a starting cell.
+- step 3: Choose a random unvisited neighbor.
+- step 4: Remove the wall between the current cell and that neighbor.
+- step 5: Move to the neighbor and repeat.
+- step 6: If a cell has no unvisited neighbors, backtrack to the previous cell.
+
+Continue until all cells are visited.
 #### Prim's algorithm
 Prim's algorithms tries to connect unvisited cells to visited cells from all directions.
 It connects until all cells are connected.
@@ -48,7 +57,7 @@ BFS explores the maze level by level (n steps away from the entry cell). The sho
 
 BFS is chosen because it has a similar logic to Prim's algorithm, so it is easy for us to implement them together.
 BFS is suitable for unweighted graphs, which is the case for our maze.
-BFS only need to traverse the graph once to find the shortest path, making it time-efficient. 
+BFS only need to traverse the graph once to find the shortest path, making it time-efficient.
 
 
 ## Instructions

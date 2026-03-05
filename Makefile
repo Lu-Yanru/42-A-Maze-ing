@@ -3,7 +3,11 @@
 # ==============================
 
 PYTHON := python3
-PIP := pip3
+VENV := .venv
+VENV_PYTHON := $(VENV)/bin/python
+VENV_PIP := $(VENV)/bin/pip
+SRC := parse_config_file.py visualize_colors.py visualize_display.py visualize_maze.py write_output.py
+
 APP := a_maze_ing.py
 
 MYPY_FLAGS := --warn-return-any \
@@ -13,24 +17,36 @@ MYPY_FLAGS := --warn-return-any \
               --check-untyped-defs
 
 # ==============================
+# Virtual Environment
+# ==============================
+
+$(VENV):
+	$(PYTHON) -m venv $(VENV)
+	$(VENV_PIP) install --upgrade pip
+
+# ==============================
 # Main Commands
 # ==============================
 
-run:
-	$(PYTHON) $(APP) $(ARGS)
+run: $(VENV)
+	$(VENV_PYTHON) $(APP) $(ARGS)
 
-debug:
-	$(PYTHON) -m pdb $(APP)
+debug: $(VENV)
+	$(VENV_PYTHON) -m pdb $(APP)
 
-install:
-	$(PIP) install mypy flake8
+install: $(VENV)
+	$(VENV_PIP) install dist/mazegen-1.0.0-py3-none-any.whl
+	$(VENV_PIP) install mypy flake8
 
-lint:
-	flake8 .
-	mypy . $(MYPY_FLAGS)
+lint: $(VENV)
+	$(VENV)/bin/flake8 $(SRC)
+	$(VENV)/bin/mypy $(MYPY_FLAGS) $(SRC)
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	rm -rf .mypy_cache
+
+fclean: clean
+		rm -rf $(VENV)
 
 all: lint run
