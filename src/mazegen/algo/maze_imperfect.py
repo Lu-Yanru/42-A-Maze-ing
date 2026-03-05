@@ -2,6 +2,9 @@
 MazeImperfect is a sublcass of Grid that makes a perfect maze imperfect
 by removing some walls from the perfect maze.
 """
+
+from __future__ import annotations
+
 import random
 from typing import TYPE_CHECKING
 

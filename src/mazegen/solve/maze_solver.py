@@ -3,7 +3,7 @@ The MazeSolver class instantiates from a maze (Grid)
 and includes functions to solve the maze.
 """
 
-
+from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from mazegen.grid.maze_cell import Cell

@@ -56,6 +56,9 @@ class Config():
         except KeyError:
             raise KeyError("ConfigError: "
                            "Mandatory key 'ENTRY' does not exist.")
+        except IndexError:
+            raise IndexError("ConfigError: "
+                             "Value of 'ENTRY' is not a coordinate.")
 
         try:
             self.exit = tuple(int(x) for x in config["EXIT"].split(","))
@@ -67,6 +70,9 @@ class Config():
             raise ValueError("ConfigError: Exit coordinate is not numbers.")
         except KeyError:
             raise KeyError("ConfigError: Mandatory key 'EXIT' does not exist.")
+        except IndexError:
+            raise IndexError("ConfigError: "
+                             "Value of 'EXIT' is not a coordinate.")
 
         if self.entry == self.exit:
             raise ConfigError("ConfigError: "
