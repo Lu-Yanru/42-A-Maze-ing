@@ -28,19 +28,23 @@ $(VENV):
 # Main Commands
 # ==============================
 
-run: $(VENV)
+run: install
 	$(VENV_PYTHON) $(APP) $(ARGS)
 
-debug: $(VENV)
+debug: install
 	$(VENV_PYTHON) -m pdb $(APP)
 
 install: $(VENV)
 	$(VENV_PIP) install dist/mazegen-1.0.0-py3-none-any.whl
 	$(VENV_PIP) install mypy flake8
 
-lint: $(VENV)
+lint: install
 	$(VENV)/bin/flake8 $(SRC)
 	$(VENV)/bin/mypy $(MYPY_FLAGS) $(SRC)
+
+lint-strict: install
+	$(VENV)/bin/flake8 $(SRC)
+	$(VENV)/bin/mypy $(MYPY_FLAGS) --strict $(SRC)
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
@@ -50,3 +54,5 @@ fclean: clean
 		rm -rf $(VENV)
 
 all: lint run
+
+.PHONY: install run debug clean fclean lint lint-strict all

@@ -81,7 +81,7 @@ The solution path is represented as a list of int with each int representing a d
     - walls (int): An interger from 0 to 15 that signifies which walls of the cell are open.
     - is_42 (bool): Whether the cell is part of the 42 pattern.
 - `MazeSolver`: Find the shortest solution path from entry to exit using the Breadth-First Search (BFS) algorithm (`solve_maze()`). The solution is represented as a list of int.
-- `Config`: Set the configuration of the maze.
+- `Config`: Set the configuration of the maze from a dictionary.
 
 ## Package structure
 
@@ -91,6 +91,7 @@ The solution path is represented as a list of int with each int representing a d
     │   ├── maze_algo_prim.py   # Prim's algorithm
     │   └── maze_imperfect.py   # Make a perfect maze imperfect
     ├── config/                 # Maze configuration
+    │   └── maze_config.py      # Maze configuration
     ├── grid/                   # Representation of the grid
     │   ├── maze_cell.py        # Representation of a cell
     │   └── maze_grid.py        # Representation of the grid with 42 pattern

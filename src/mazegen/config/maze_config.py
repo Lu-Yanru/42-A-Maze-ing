@@ -43,13 +43,13 @@ class Config():
                               "Cannot generate maze.")
 
         if self.width < 7 or self.height < 5:
-            print("Maze too small to generate 42 pattern.")
+            print("Error: Maze too small to generate 42 pattern.")
 
         try:
             self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
-            if self.entry[0] > self.width or self.entry[0] < 0:
+            if self.entry[0] >= self.width or self.entry[0] < 0:
                 raise ConfigError("ConfigError: ENTRY OUT OF BOUNDS")
-            elif self.entry[1] > self.height or self.entry[1] < 0:
+            elif self.entry[1] >= self.height or self.entry[1] < 0:
                 raise ConfigError("ConfigError: ENTRY OUT OF BOUNDS")
         except ValueError:
             raise ValueError("ConfigError: Entry coordinate is not numbers.")
@@ -59,14 +59,18 @@ class Config():
 
         try:
             self.exit = tuple(int(x) for x in config["EXIT"].split(","))
-            if self.exit[0] > self.width or self.exit[0] < 0:
+            if self.exit[0] >= self.width or self.exit[0] < 0:
                 raise ConfigError("ConfigError: EXIT OUT OF BOUNDS")
-            elif self.exit[1] > self.height or self.exit[1] < 0:
+            elif self.exit[1] >= self.height or self.exit[1] < 0:
                 raise ConfigError("ConfigError: EXIT OUT OF BOUNDS")
         except ValueError:
             raise ValueError("ConfigError: Exit coordinate is not numbers.")
         except KeyError:
             raise KeyError("ConfigError: Mandatory key 'EXIT' does not exist.")
+
+        if self.entry == self.exit:
+            raise ConfigError("ConfigError: "
+                              "Entry and exit points cannot overlap.")
 
         try:
             self.output = config["OUTPUT_FILE"]

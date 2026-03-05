@@ -4,8 +4,12 @@ and includes functions to solve the maze.
 """
 
 
+from typing import TYPE_CHECKING
+
 from mazegen.grid.maze_cell import Cell
-from mazegen.grid.maze_grid import Grid
+# Import only for the type hint to avoid runtime import overhead
+if TYPE_CHECKING:
+    from mazegen.grid.maze_grid import Grid
 
 
 class MazeSolver:

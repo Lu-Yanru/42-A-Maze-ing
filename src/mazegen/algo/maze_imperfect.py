@@ -3,11 +3,14 @@ MazeImperfect is a sublcass of Grid that makes a perfect maze imperfect
 by removing some walls from the perfect maze.
 """
 import random
+from typing import TYPE_CHECKING
 
-from mazegen.config.maze_config import Config
 from mazegen.grid.maze_cell import Cell
 from mazegen.grid.maze_grid import Grid
-from mazegen.maze_generator import MazeGenerator
+# Import only for the type hint to avoid runtime import overhead
+if TYPE_CHECKING:
+    from mazegen.config.maze_config import Config
+    from mazegen.maze_generator import MazeGenerator
 
 
 class MazeImperfect(Grid):

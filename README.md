@@ -62,6 +62,31 @@ BFS only need to traverse the graph once to find the shortest path, making it ti
 
 ## Instructions
 
+Install dependencies:
+
+    make install
+
+Run the program:
+
+    make run ARGS="config.txt"
+    # or
+    python3 a_maze_ing.py config.txt
+
+Run the program in debug mode:
+
+    make debug
+
+Remove temporary files and caches:
+
+    make clean
+
+Code linting using `flake8` and `mypy`
+
+    make lint
+    # Or in strict mode
+    make lint-strict
+
+
 ### Configuration file format
 #### Mandatory keys:
 | Key | Description | Example |
@@ -155,7 +180,7 @@ The solution path is represented as a list of int with each int representing a d
     - walls (int): An interger from 0 to 15 that signifies which walls of the cell are open.
     - is_42 (bool): Whether the cell is part of the 42 pattern.
 - `MazeSolver`: Find the shortest solution path from entry to exit using the Breadth-First Search (BFS) algorithm (`solve_maze()`). The solution is represented as a list of int.
-- `Config`: Set the configuration of the maze.
+- `Config`: Set the configuration of the maze from a dictionary.
 
 #### Package structure
 
@@ -165,6 +190,7 @@ The solution path is represented as a list of int with each int representing a d
     │   ├── maze_algo_prim.py   # Prim's algorithm
     │   └── maze_imperfect.py   # Make a perfect maze imperfect
     ├── config/                 # Maze configuration
+    │   └── maze_config.py      # Maze configuration
     ├── grid/                   # Representation of the grid
     │   ├── maze_cell.py        # Representation of a cell
     │   └── maze_grid.py        # Representation of the grid with 42 pattern
@@ -193,43 +219,26 @@ The output file consists of the following parts:
 ## Project management
 
 ### Task divisions
-- README (each write own stuff)
-- Makefile (lucas)
-- Read configuration file and check validity (lucas)
-    - store in Config class in appropriate format int/str/bool
-    - check validity: data type, mandatory fields, extra fields?, entry and exit points not out of bound or overlap
-    - ignore comment lines starting with #
-- x Generate maze
-	- x Grid representation (yanru)
-		- x Terminal output for testing
-	    - x Fixed 42 pattern and config checking
-            - x generate 42 pattern
-            - x check grid is big enough
-            - x check entry and exit points are not in 42 pattern
-	- x Perfect algo1 -> Backtracking (lucas)
-	- x Perfect algo2 -> Prim (yanru)
-    - x Imperfect maze: randomly remove walls if not form a bigger corridor (yanru)
-- x Find shortest path -> Breadth First Search (yanru)
-- x Write to output file (yanru)
-    - x Write maze to output
-    - x Write entry and exit points
-    - x Write solution
-- x Visualization
-    - x Display walls (lucas)
-    - x Display entry and exit points (lucas)
-    - x User interaction (yanru)
-        - x Prompt
-        - x Regenerate maze
-        - x Show/hide solution
-        - x Change colors
-        - x Animation
-- Make reuable module (yanru)
+- README (both)
+- Makefile (lvasconc)
+- Read configuration file and check validity (lvasconc)
+- Generate maze
+	- Grid representation (yanlu)
+	- Backtracking algorithm (lvasconc)
+	- Prim's algorithm (yanlu)
+    - Imperfect maze (yanlu)
+- Find shortest path: Breadth First Search (yanlu)
+- Write to output file (yanlu)
+- Visualization
+    - Basic maze display (lvasconc)
+    - User interaction (yanlu)
+- Create reuable module (yanlu)
 
 ### Initial planning and evolution
 We initialy planned to use the MLX library. But after discussing with peers, we decided to use the Python build-in `curses` library for a terminal rendering.
 
 ### Reflections
-Both teammates took their responsiblities and completed their tasks in time. The collaboration worked smoothly.
+Both teammates took their responsibilities and completed their tasks in time. The collaboration worked smoothly.
 
 We could have planned better and have clearer task divisions at the beginning.
 
@@ -253,6 +262,7 @@ We could have planned better and have clearer task divisions at the beginning.
 - **venv**: Create virtual environment
 - **git**: Version control and collaboration
 - **pip**: Package manager
+- **build**: Package builder
 - **flake8**: Code linting and style checking
 - **mypy**: Static type checker for Python
 
