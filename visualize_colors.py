@@ -65,14 +65,14 @@ class ColorTheme:
         }
 
     @classmethod
-    def get_theme(cls, theme_id: int) -> "ColorTheme":
+    def get_theme(cls: "type[ColorTheme]", theme_id: int) -> "ColorTheme":
         """Get a color theme by it's id."""
         if not cls.THEMES:
             cls.initialze_themes()
         return cls.THEMES[theme_id]
 
     @classmethod
-    def get_theme_count(cls) -> int:
+    def get_theme_count(cls: "type[ColorTheme]") -> int:
         """Count the number of existing themes."""
         if not cls.THEMES:
             cls.initialze_themes()

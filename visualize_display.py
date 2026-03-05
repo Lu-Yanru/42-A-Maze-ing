@@ -208,29 +208,29 @@ class MazeDisplay:
         # Redraw everything
         self.redraw()
 
-    def scroll_up(self) -> None:
+    def scroll_up(self: "MazeDisplay") -> None:
         """Redraw when scrolling up with up button."""
         self.scroll_offset_y = max(0, self.scroll_offset_y - 1)
         self.redraw()
 
-    def scroll_down(self) -> None:
+    def scroll_down(self: "MazeDisplay") -> None:
         """Redraw when scrolling down with down button."""
         max_scroll_y = max(0, self.total_height - self.screen_height)
         self.scroll_offset_y = min(max_scroll_y, self.scroll_offset_y + 1)
         self.redraw()
 
-    def scroll_left(self) -> None:
+    def scroll_left(self: "MazeDisplay") -> None:
         """Redraw when scrolling left with left button."""
         self.scroll_offset_x = max(0, self.scroll_offset_x - 1)
         self.redraw()
 
-    def scroll_right(self) -> None:
+    def scroll_right(self: "MazeDisplay") -> None:
         """Redraw when scrolling right with right button."""
         max_scroll_x = max(0, self.total_width - self.screen_width)
         self.scroll_offset_x = min(max_scroll_x, self.scroll_offset_x + 1)
         self.redraw()
 
-    def scroll_to_prompt(self) -> None:
+    def scroll_to_prompt(self: "MazeDisplay") -> None:
         """Scroll to prompt row."""
         if self.prompt_row - self.scroll_offset_y >= self.screen_height - 2 \
                 or self.prompt_col <= self.scroll_offset_x:
@@ -336,7 +336,7 @@ class MazeDisplay:
 
         return res.strip()
 
-    def handle_user_input(self) -> bool:
+    def handle_user_input(self: "MazeDisplay") -> bool:
         """
         Handles user input.
         Returns false when quit.
@@ -378,7 +378,7 @@ class MazeDisplay:
             self.redraw()
             return True
 
-    def run(self) -> None:
+    def run(self: "MazeDisplay") -> None:
         """Run the main interaction loop."""
         self.display_maze()
         while True:
