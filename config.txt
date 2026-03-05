@@ -4,5 +4,5 @@ ENTRY=0,0
 EXIT=9,9
 OUTPUT_FILE=maze.txt
 PERFECT=True
-seed=42
-Algorithm=DFS
+# SEED=42
+# Algorithm=DFS

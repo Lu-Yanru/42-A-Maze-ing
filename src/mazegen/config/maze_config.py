@@ -42,6 +42,9 @@ class Config():
             raise ConfigError("ConfigError: Invalid 'HEIGHT' value. "
                               "Cannot generate maze.")
 
+        if self.width < 7 or self.height < 5:
+            print("Maze too small to generate 42 pattern.")
+
         try:
             self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
             if self.entry[0] > self.width or self.entry[0] < 0:

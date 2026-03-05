@@ -25,9 +25,7 @@ class Grid:
         if hasattr(config, "algo"):
             self.algo = config.algo
         self.grid = self.make_grid()
-        if self.width < 7 or self.height < 5:
-            print("Error: Maze too small to generate 42 pattern.")
-        else:
+        if self.width >= 7 and self.height >= 5:
             self.make_42()
 
     def make_grid(self: "Grid") -> list[list[Cell]]:
