@@ -42,12 +42,12 @@ class MazeGenerator(Grid, ABC):
 
         maze: MazeGenerator
         if hasattr(config, "algo"):
-            if config.algo == "DFS":
+            if config.algo == "dfs":
                 maze = MazeDFS(config)
-            elif config.algo == "Prim":
+            elif config.algo == "prim":
                 maze = MazePrim(config)
             else:
-                raise ConfigError(f"ConfigError: Algorithm {config.algo}"
+                raise ConfigError(f"ConfigError: Algorithm {config.algo} "
                                   "is not implemented.")
         else:
             # Default algo: DSF
@@ -55,7 +55,7 @@ class MazeGenerator(Grid, ABC):
 
         maze.generate()
 
-        if config.perfect == "False":
+        if config.perfect == "false":
             imperfect_maze = MazeImperfect(config, maze)
             imperfect_maze.make_imperfect()
             return imperfect_maze

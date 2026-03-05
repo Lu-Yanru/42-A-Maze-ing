@@ -21,38 +21,65 @@ class Config():
         """
         try:
             self.width = int(config["WIDTH"])
-        except Exception:
-            print("INVALID WIDTH - PLEASE CHECK CONFIG FILE USED!")
-            self.width = -1
+        except KeyError:
+            raise KeyError("ConfigError: "
+                           "Mandatory key 'WIDTH' does not exist.")
+        except ValueError:
+            raise ValueError("ConfigError: Value of 'WIDTH' is not a number.")
+
         try:
             self.height = int(config["HEIGHT"])
-        except Exception:
-            print("INVALID HEIGHT - PLEASE CHECK CONFIG FILE USED!")
-            self.height = -1
+        except KeyError:
+            raise KeyError("ConfigError: "
+                           "Mandatory key 'WIDTH' does not exist.")
+        except ValueError:
+            raise ValueError("ConfigError: Value of 'WIDTH' is not a number.")
+
+        if self.width < 1:
+            raise ConfigError("ConfigError: Invalid 'WIDTH' value. "
+                              "Cannot generate maze.")
+        if self.height < 1:
+            raise ConfigError("ConfigError: Invalid 'HEIGHT' value. "
+                              "Cannot generate maze.")
+
         try:
             self.entry = tuple(int(x) for x in config["ENTRY"].split(","))
             if self.entry[0] > self.width or self.entry[0] < 0:
-                raise ConfigError("ENTRY OUT OF BOUNDS")
+                raise ConfigError("ConfigError: ENTRY OUT OF BOUNDS")
             elif self.entry[1] > self.height or self.entry[1] < 0:
-                raise ConfigError("ENTRY OUT OF BOUNDS")
+                raise ConfigError("ConfigError: ENTRY OUT OF BOUNDS")
         except ValueError:
-            print("INVALID ENTRY POINT - PLEASE CHECK CONFIG FILE USED!")
+            raise ValueError("ConfigError: Entry coordinate is not numbers.")
+        except KeyError:
+            raise KeyError("ConfigError: "
+                           "Mandatory key 'ENTRY' does not exist.")
+
         try:
             self.exit = tuple(int(x) for x in config["EXIT"].split(","))
             if self.exit[0] > self.width or self.exit[0] < 0:
-                raise ConfigError("EXIT OUT OF BOUNDS")
+                raise ConfigError("ConfigError: EXIT OUT OF BOUNDS")
             elif self.exit[1] > self.height or self.exit[1] < 0:
-                raise ConfigError("EXIT OUT OF BOUNDS")
+                raise ConfigError("ConfigError: EXIT OUT OF BOUNDS")
         except ValueError:
-            print("INVALID ENTRY POINT - PLEASE CHECK CONFIG FILE USED!")
+            raise ValueError("ConfigError: Exit coordinate is not numbers.")
+        except KeyError:
+            raise KeyError("ConfigError: Mandatory key 'EXIT' does not exist.")
 
-        self.output = config["OUTPUT_FILE"]
-        self.perfect = config["PERFECT"]
+        try:
+            self.output = config["OUTPUT_FILE"]
+        except KeyError:
+            raise KeyError("ConfigError: "
+                           "Mandatory key 'OUTPUT_FILE' does not exist.")
+
+        try:
+            self.perfect = config["PERFECT"].lower()
+        except KeyError:
+            raise KeyError("ConfigError: "
+                           "Mandatory key 'PERFECT' does not exist.")
+        if self.perfect != 'true' and self.perfect != "false":
+            raise ConfigError("ConfigError: Value of 'PERFECT' invalid.")
 
         if "SEED" in config:
-            try:
-                self.seed = int(config["SEED"])
-            except Exception:
-                print("INVALID SEED - TRY AN INTEGER VALUE")
+            self.seed = config["SEED"]
         if "ALGORITHM" in config:
-            self.algo = config["ALGORITHM"]
+            self.algo = config["ALGORITHM"].lower()

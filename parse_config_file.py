@@ -15,7 +15,7 @@ def parse_config_file(file_name: str) -> dict[str, str]:
 
         for line in lines:
             if "=" in line:
-                key = line.split("=")[0]
+                key = line.split("=")[0].upper()
                 value = line.split("=")[1]
                 defines[key] = value
     return defines

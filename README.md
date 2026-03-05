@@ -217,9 +217,12 @@ The output file consists of the following parts:
 - Make reuable module (yanru)
 
 ### Initial planning and evolution
+We initialy planned to use the MLX library. But after discussing with peers, we decided to use the Python build-in `curses` library for a terminal rendering.
 
 ### Reflections
-What worked well and what coulde be improved
+Both teammates took their responsiblities and completed their tasks in time. The collaboration worked smoothly.
+
+We could have planned better and have clearer task divisions at the beginning.
 
 ## Resources
 - [Maze generation algorithm: Recursive backtracking](https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking)
@@ -236,13 +239,12 @@ What worked well and what coulde be improved
 - [Packaging python projects](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
 - [Python virtual environment venv](https://www.w3schools.com/python/python_virtualenv.asp)
 - [Creating a Python Makefile](https://earthly.dev/blog/python-makefile/)
-- https://github.com/Destrigo/42_New_Curriculum/tree/main/milestone_2/a_maze_ing
-- https://github.com/KeroBeros68/a_maze_ing
 
 ### Tools used
+- **venv**: Create virtual environment
 - **git**: Version control and collaboration
 - **pip**: Package manager
 - **flake8**: Code linting and style checking
 - **mypy**: Static type checker for Python
 
-AI was used to compare different algorithms and explain them step by step with examples, and to refactor the code.
+AI was used to compare different algorithms and explain them step by step with examples.

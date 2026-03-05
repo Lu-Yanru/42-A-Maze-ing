@@ -2,7 +2,7 @@ import curses
 import sys
 
 import parse_config_file as parsing
-from src.mazegen.config.maze_config import Config, ConfigError
+from mazegen.config.maze_config import Config, ConfigError
 from visualize_display import MazeDisplay
 
 
@@ -23,7 +23,7 @@ def main() -> None:
 
         curses.wrapper(run_display)
 
-    except ConfigError as e:
+    except (ValueError, KeyError, ConfigError) as e:
         print(e)
     except OSError as e:
         print(e)
