@@ -2,7 +2,7 @@ import curses
 import sys
 
 import parse_config_file as parsing
-from mazegen.config.maze_config import Config, ConfigError
+from src.mazegen.config.maze_config import Config, ConfigError
 from visualize_display import MazeDisplay
 
 
@@ -29,6 +29,8 @@ def main() -> None:
         print(e)
     except KeyboardInterrupt:
         print("Interrupted by user")
+    except Exception as e:
+        print(e)
 
 
 if __name__ == "__main__":
